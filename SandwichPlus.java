@@ -1,9 +1,14 @@
+/**
+ * @author Joaquin
+ * @see Sandwich
+ */
+
 import java.util.LinkedList;
 
 public class SandwichPlus extends Sandwich {
-
-    public SandwichPlus(String type, LinkedList<String> toppings) {
-        super(type, (byte) 15, toppings, true, true);
-
+    public SandwichPlus() {
+        this.size = 15;
+        this.hasBacon = true;
+        this.toasted = true;
     }
 }
