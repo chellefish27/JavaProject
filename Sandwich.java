@@ -8,20 +8,107 @@ class Sandwich {
   protected boolean toasted;
   protected String toy;
 
-  /**
-   * @param type     the type of sandwich
-   * @param size     size of the sandwich (2-15 in inches)
-   * @param toppings is a Linked List of all the toppings on the sandwich
+  /*
+    ---------------> Methods <---------------
    */
 
-  public Sandwich(String type, byte size, LinkedList<String> toppings, boolean hasBacon, boolean toasted) {
+  /**
+   *
+   * @param topping topping to be added to list [String]
+   * @return offerLast() returns boolean if successful in adding or not
+   */
+  public boolean addTopping(String topping) {
+    // this may be changed depending on what makes most sense, both offerFirst and offerLast are O(1)
+    return toppings.offerLast(topping);
+  }
+
+  /*
+    ---------------> Getters <---------------
+   */
+
+  /**
+   * @return String
+   */
+  public String getType() {
+    return type;
+  }
+  /**
+   * @return byte
+   */
+  public byte getSize() {
+    return size;
+  }
+
+  /**
+   * returns a LinkedList of all the toppings
+   * @return LinkedList<String>
+   */
+  public LinkedList<String> getToppings() {
+    return toppings;
+  }
+
+  /**
+   * @return boolean
+   */
+  public boolean isHasBacon() {
+    return hasBacon;
+  }
+
+  /**
+   * @return boolean
+   */
+
+  public boolean isToasted() {
+    return toasted;
+  }
+  /**
+   * @return String
+   */
+  public String getToy() {
+    return toy;
+  }
+  /*
+    ---------------> Setters <---------------
+   */
+
+  /**
+   * @param type the type of sandwich [String]
+   */
+  public void setType(String type) {
     this.type = type;
+  }
+
+  /**
+   * @param size size of the sandwich (2-15 in inches) [byte]
+   */
+  public void setSize(byte size) {
     this.size = size;
+  }
+
+  /**
+   * @param toppings is a Linked List of all the toppings on the sandwich [LinkedList<String>]
+   */
+  public void setToppings(LinkedList<String> toppings) {
     this.toppings = toppings;
+  }
+
+  /**
+   * @param hasBacon if the sandwich has bacon [boolean]
+   */
+  public void setHasBacon(boolean hasBacon) {
     this.hasBacon = hasBacon;
+  }
+
+  /**
+   * @param toasted if the sandwich has toasted bread [boolean]
+   */
+  public void setToasted(boolean toasted) {
     this.toasted = toasted;
   }
 
+  /**
+   * @param toy a string that denotes the toy included [String]
+   */
   public void setToy(String toy) {
     this.toy = toy;
   }
