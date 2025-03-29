@@ -12,7 +12,6 @@ import java.awt.event.*;
     This Class creates the graphical interface for the "Sandwich Tracker" using the javax swing library
     It extends JFrame which allows itself to be referenced as the frame. For ease of creation many different
     parts will be put onto JPanels which will then be placed on to the frame as needed.
-
  */
 
 public class Frame extends JFrame implements ActionListener, TableModelListener {
@@ -25,17 +24,27 @@ public class Frame extends JFrame implements ActionListener, TableModelListener 
     //Customer Data Panel components
     private JTable customerTable, pastOrderTable;
     private JLabel searchByEmail;
-    private JScrollPane customerScroll;
+    private JScrollPane customerScroll, pastOrderScroll;
     private JTextField searchEmail;
     private JComboBox<String> emailEndings;
 
     //Constructor for the Frame class, creates the frame when a new frame object is made
     public Frame() {
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //set frame attributes
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setResizable(false);
         this.setLayout(null);
         this.setLocationRelativeTo(null);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                //call save method
+                Main.writeCustomers(Main.customers);
+                //close window
+                closeWindow();
+            }
+        });
 
         //initialize customerDataPanel
         customerDataPanel = new JPanel();
@@ -88,16 +97,21 @@ public class Frame extends JFrame implements ActionListener, TableModelListener 
 
         //Initialize searchEmail text field
         searchEmail = new JTextField();
-        searchEmail.setBounds(0, 45, 350, 50);
+        searchEmail.setBounds(0, 52, 275, 35);
         searchEmail.setFont(new Font("Arial", Font.PLAIN, 18));
 
         //Email Ending Box
         String[] endings = {"@gmail.com", "@outlook.com", "@yahoo.com"};
         emailEndings = new JComboBox<>(endings);
-        emailEndings.setBounds(350, 45, 150, 50);
+        emailEndings.setBounds(275, 45, 225, 50);
         emailEndings.setFont(new Font("Arial", Font.PLAIN, 18));
         emailEndings.setBackground(Color.white);
         emailEndings.addActionListener(this);
+
+        //initialize past orders table
+        String[] pastCol = {"Item", "Date", "Cost"};
+        Object[][] pastData;
+        DefaultTableModel pastTable = new DefaultTableModel();;
 
 
         //add Elements to customerDataPanel
@@ -126,5 +140,10 @@ public class Frame extends JFrame implements ActionListener, TableModelListener 
         if (e.getSource() == emailEndings) {
             System.out.println(emailEndings.getSelectedItem());
         }
+    }
+
+    public void closeWindow() {
+        this.dispose();
+        System.exit(0);
     }
 }
