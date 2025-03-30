@@ -1,4 +1,3 @@
-package mainPackage;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,7 +30,7 @@ public class Main {
 		   br = new BufferedReader(fr);
 		   String input = br.readLine();
 		   while(input!=null) {
-			   c.add(new Customer(input.split(",")));
+			   //c.add(new Customer(input.split(",")));
 			   input=br.readLine();
 		   }
 		   br.close();
