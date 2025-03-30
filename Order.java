@@ -135,6 +135,13 @@ public class Order {
   }
 
   /**
+   * @param drinks set the entire drinks linked list [LinkedList<Drink>]
+   */
+  public void setDrinks(LinkedList<Drink> drinks) {
+    this.drinks = drinks;
+  }
+
+  /**
    * @param promotion whether the store had a promotion at the time of the ordered [boolean]
    */
   public void setPromotion(boolean promotion) {
@@ -144,7 +151,7 @@ public class Order {
   /**
    * @param total the total price of the order [int]
    */
-  public void setTotal(int total) {
+  public void setTotal(double total) {
     this.total = total;
   }
 
@@ -186,9 +193,9 @@ public class Order {
    * @return String with number of sandwiches and drinks
    */
   public String toString() {
-    if (drinks.size() == 0)
+    if (drinks.isEmpty())
       return String.format("%d Sandwiches ", sandwiches.size());
-    else if (sandwiches.size() == 0)
+    else if (sandwiches.isEmpty())
       return String.format("%d Drinks", drinks.size());
 
     return String.format("%d Sandwiches\n %d Drinks", sandwiches.size(), drinks.size());
