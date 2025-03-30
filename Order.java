@@ -1,4 +1,4 @@
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -14,13 +14,13 @@ public class Order {
   private String paymentMethod;
   private String confirmationCode;
   private long storeID;
-  private final LocalDateTime dateOrdered;
+  private final LocalDate dateOrdered;
 
   public Order() {
     // implement randomized IDs later
     // this.storeID
 
-    dateOrdered = LocalDateTime.now();
+    dateOrdered = LocalDate.now();
   }
 
   /*
@@ -119,7 +119,7 @@ public class Order {
   /**
    * @return LocalDateTime from java.time.LocalDateTime
    */
-  public LocalDateTime getDate() {
+  public LocalDate getDate() {
     return dateOrdered;
   }
 
