@@ -4,6 +4,7 @@
  */
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class Sandwich extends Item {
   protected byte size;
@@ -38,17 +39,17 @@ public class Sandwich extends Item {
   }
 
   /**
-   * returns a LinkedList of all the toppings
-   * @return LinkedList<String>
+   *
+   * @return List<String> a List of all the toppings
    */
-  public LinkedList<String> getToppings() {
+  public List<String> getToppings() {
     return toppings;
   }
 
   /**
    * @return boolean
    */
-  public boolean isHasBacon() {
+  public boolean hasBacon() {
     return hasBacon;
   }
 
