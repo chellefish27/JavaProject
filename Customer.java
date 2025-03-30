@@ -4,9 +4,9 @@ public class Customer {
     private String name;
     private String email;
     private String ID;
-    private ArrayList<String> pastOrders = new ArrayList<>();
+    private ArrayList<Order> pastOrders = new ArrayList<>();
 
-    public Customer(String name, String email, ArrayList<String> pastOrders) {
+    public Customer(String name, String email, ArrayList<Order> pastOrders) {
         this.name = name;
         this.email = email;
         this.pastOrders = pastOrders;
@@ -25,7 +25,7 @@ public class Customer {
     public String customerString() {
         return (name + "," + email);
     }
-    public ArrayList<String> getPastOrders() {
+    public ArrayList<Order> getPastOrders() {
         return pastOrders;
     }
 }
