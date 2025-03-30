@@ -2,7 +2,7 @@
  * @author Joaquin
  */
 
-class Order {
+public class Order {
   private LinkedList<Sandwich> sandwiches = new LinkedList<>();
   private LinkedList<Drink> drinks = new LinkedList<>();
   private boolean promotion;
