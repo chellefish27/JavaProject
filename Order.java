@@ -6,7 +6,7 @@ class Order {
   private LinkedList<Sandwich> sandwiches = new LinkedList<>();
   private LinkedList<Drink> drinks = new LinkedList<>();
   private boolean promotion;
-  private int total;
+  private double total;
   private String paymentMethod;
   private String confirmationCode;
   private long storeID;
@@ -144,8 +144,23 @@ class Order {
   /**
    * @param confirmationCode the code from the financial institution (3 Letters, 4 Numbers. E.g. RHN3421) [String]
    */
-  public void setConfirmationCode(String confirmationCode) {
+  public boolean setConfirmationCode(String confirmationCode) {
+    for(int i = 0; i < 3; ++i) {
+      // checks if the first 3 characters are a digit
+      if (Character.isDigit(confirmationCode.charAt(i))) {
+        System.out.println("Not a valid confirmation code");
+        return false;
+      }
+    }
+    for(int i = 3; i < 7; ++i) {
+      // checks if the first 3 characters are a digit
+      if (!Character.isDigit(confirmationCode.charAt(i))) {
+        System.out.println("Not a valid confirmation code");
+        return false;
+      }
+    }
     this.confirmationCode = confirmationCode;
+    return true;
   }
 
   /*
@@ -156,6 +171,11 @@ class Order {
    * @return String with number of sandwiches and drinks
    */
   public String toString() {
+    if (drinks.size() == 0)
+      return String.format("%d Sandwiches ", sandwiches.size());
+    else if (sandwiches.size() == 0)
+      return String.format("%d Drinks", drinks.size());
+
     return String.format("%d Sandwiches\n %d Drinks", sandwiches.size(), drinks.size());
   }
 }
