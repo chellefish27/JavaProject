@@ -47,9 +47,9 @@ class Order {
       total += sandwich.getPrice();
     }
 
-    iterator = drinks.iterator();
-    while (iterator.hasNext()) {
-      Drink drink = iterator.next();
+    Iterator<Drink> iterator2 = drinks.iterator();
+    while (iterator2.hasNext()) {
+      Drink drink = iterator2.next();
       total += drink.getPrice();
     }
 
