@@ -1,12 +1,16 @@
+/**
+ * @author Joaquin
+ * @see Item
+ */
+
 import java.util.LinkedList;
 
-class Sandwich {
-  protected String type;
+class Sandwich extends Item {
   protected byte size;
   protected LinkedList<String> toppings = new LinkedList<>();
   protected boolean hasBacon;
   protected boolean toasted;
-  protected String toy;
+  protected String toy = "No toy ordered";
 
   /*
     ---------------> Methods <---------------
@@ -18,7 +22,7 @@ class Sandwich {
    * @return offerLast() returns boolean if successful in adding or not
    */
   public boolean addTopping(String topping) {
-    // this may be changed depending on what makes most sense, both offerFirst and offerLast are O(1)
+    // this may be changed depending on what makes most sense, both offerFirst and offerLast are O(1). It can also be changed to addLast/addFirst instead
     return toppings.offerLast(topping);
   }
 
@@ -26,12 +30,6 @@ class Sandwich {
     ---------------> Getters <---------------
    */
 
-  /**
-   * @return String
-   */
-  public String getType() {
-    return type;
-  }
   /**
    * @return byte
    */
@@ -61,12 +59,14 @@ class Sandwich {
   public boolean isToasted() {
     return toasted;
   }
+
   /**
    * @return String
    */
   public String getToy() {
     return toy;
   }
+
   /*
     ---------------> Setters <---------------
    */

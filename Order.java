@@ -1,7 +1,10 @@
-import jdk.javadoc.internal.doclets.toolkit.taglets.snippet.Style;
+/**
+ * @author Joaquin
+ */
 
 class Order {
   private LinkedList<Sandwich> sandwiches = new LinkedList<>();
+  private LinkedList<Drink> drinks = new LinkedList<>();
   private boolean promotion;
   private int total;
   private String paymentMethod;
@@ -25,6 +28,34 @@ class Order {
     return sandwiches.offerLast(sandwich);
   }
 
+  /**
+   * @param drink add a drink to the drinks linked list [Drink]
+   * @return offerLast() returns boolean if successful in adding or not
+   */
+  public boolean addDrink(Drink drink) {
+    return drinks.offerLast(drink);
+  }
+
+  /**
+   * this method uses an iterator because a 'for' loop + .get() is O(n^2) for a linked list
+   * @return returns the total after calculating it
+   */
+  public int calcTotal() {
+    Iterator<Sandwich> iterator = sandwiches.iterator();
+    while (iterator.hasNext()) {
+      Sandwich sandwich = iterator.next();
+      total += sandwich.getPrice();
+    }
+
+    iterator = drinks.iterator();
+    while (iterator.hasNext()) {
+      Drink drink = iterator.next();
+      total += drink.getPrice();
+    }
+
+    return total;
+  }
+
   /*
     ---------------> Getters <---------------
    */
@@ -34,6 +65,13 @@ class Order {
    */
   public LinkedList<Sandwich> getSandwiches() {
     return sandwiches;
+  }
+
+  /**
+   * @return LinkedList<Drink>
+   */
+  public LinkedList<Drink> getDrinks() {
+    return drinks;
   }
 
   /**
@@ -110,4 +148,14 @@ class Order {
     this.confirmationCode = confirmationCode;
   }
 
+  /*
+    ---------------> Overrides <---------------
+   */
+
+  /**
+   * @return String with number of sandwiches and drinks
+   */
+  public String toString() {
+    return String.format("%d Sandwiches\n %d Drinks", sandwiches.size(), drinks.size());
+  }
 }
