@@ -116,7 +116,7 @@ class Order {
   /**
    * @param sandwiches set the entire sandwiches linked list [LinkedList<Sandwich>]
    */
-  public boolean setSandwiches(LinkedList<Sandwich> sandwiches) {
+  public void setSandwiches(LinkedList<Sandwich> sandwiches) {
     this.sandwiches = sandwiches;
   }
 
