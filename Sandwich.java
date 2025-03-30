@@ -80,10 +80,10 @@ public class Sandwich extends Item {
   }
 
   /**
-   * @param toppings is a Linked List of all the toppings on the sandwich [LinkedList<String>]
+   * @param toppings is a List of all the toppings on the sandwich [List<String>]
    */
-  public void setToppings(LinkedList<String> toppings) {
-    this.toppings = toppings;
+  public void setToppings(List<String> toppings) {
+    this.toppings = new LinkedList<>(toppings);
   }
 
   /**

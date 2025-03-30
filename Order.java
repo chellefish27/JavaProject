@@ -131,14 +131,14 @@ public class Order {
    */
 
   /**
-   * @param sandwiches set the entire sandwiches linked list [LinkedList<Sandwich>]
+   * @param sandwiches set the entire sandwiches linked list [List<Sandwich>]
    */
   public void setSandwiches(List<Sandwich> sandwiches) {
     this.sandwiches = new LinkedList<>(sandwiches);
   }
 
   /**
-   * @param drinks set the entire drinks linked list [LinkedList<Drink>]
+   * @param drinks set the entire drinks linked list [List<Drink>]
    */
   public void setDrinks(List<Drink> drinks) {
     this.drinks = new LinkedList<>(drinks);
