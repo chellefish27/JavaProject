@@ -1,7 +1,7 @@
 /**
  * @author Joaquin
  */
-abstract class Food {
+abstract class Item {
     protected String type;
     protected short price;
 
