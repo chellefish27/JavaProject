@@ -47,9 +47,9 @@ class Order {
       total += sandwich.getPrice();
     }
 
-    iterator = drinks.iterator();
-    while (iterator.hasNext()) {
-      Drink drink = iterator.next();
+    Iterator<Drink> iterator2 = drinks.iterator();
+    while (iterator2.hasNext()) {
+      Drink drink = iterator2.next();
       total += drink.getPrice();
     }
 
@@ -116,7 +116,7 @@ class Order {
   /**
    * @param sandwiches set the entire sandwiches linked list [LinkedList<Sandwich>]
    */
-  public boolean setSandwiches(LinkedList<Sandwich> sandwiches) {
+  public void setSandwiches(LinkedList<Sandwich> sandwiches) {
     this.sandwiches = sandwiches;
   }
 
@@ -143,19 +143,20 @@ class Order {
 
   /**
    * @param confirmationCode the code from the financial institution (3 Letters, 4 Numbers. E.g. RHN3421) [String]
+   * @return boolean if the code is valid or not
    */
   public boolean setConfirmationCode(String confirmationCode) {
     for(int i = 0; i < 3; ++i) {
-      // checks if the first 3 characters are a digit
-      if (Character.isDigit(confirmationCode.charAt(i))) {
-        System.out.println("Not a valid confirmation code");
+      // checks if the first 3 characters are a letter
+      if (!Character.isLetter(confirmationCode.charAt(i))) {
+        System.err.println("Not a valid confirmation code");
         return false;
       }
     }
     for(int i = 3; i < 7; ++i) {
-      // checks if the first 3 characters are a digit
+      // checks if the last 4 characters are a number
       if (!Character.isDigit(confirmationCode.charAt(i))) {
-        System.out.println("Not a valid confirmation code");
+        System.err.println("Not a valid confirmation code");
         return false;
       }
     }
