@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Customer {
     private String name;
     private String email;
+    private String ID;
     private ArrayList<String> pastOrders = new ArrayList<>();
 
     public Customer(String name, String email, ArrayList<String> pastOrders) {
