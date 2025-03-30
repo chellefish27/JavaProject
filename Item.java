@@ -3,7 +3,7 @@
  */
 public abstract class Item {
     protected String type;
-    protected short price;
+    protected double price;
 
     /*
     ---------------> Getters <---------------
@@ -19,7 +19,7 @@ public abstract class Item {
     /**
      * @return short
      */
-    public short getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -37,7 +37,7 @@ public abstract class Item {
     /**
      * @param price the price of the food [short]
      */
-    public void setPrice(short price) {
+    public void setPrice(double price) {
         this.price = price;
     }
  }

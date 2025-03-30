@@ -11,7 +11,7 @@ public class SandwichPlus extends Sandwich {
     }
 
     @Override
-    public void setSize() {
+    public void setSize(byte size) {
         System.out.println("You shall have a 15 inch sandwich!");
     }
 }

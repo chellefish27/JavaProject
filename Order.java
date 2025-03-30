@@ -1,3 +1,7 @@
+import java.time.LocalDateTime;
+import java.util.Iterator;
+import java.util.LinkedList;
+
 /**
  * @author Joaquin
  */
@@ -10,10 +14,13 @@ public class Order {
   private String paymentMethod;
   private String confirmationCode;
   private long storeID;
+  private final LocalDateTime dateOrdered;
 
   public Order() {
     // implement randomized IDs later
     // this.storeID
+
+    dateOrdered = LocalDateTime.now();
   }
 
   /*
@@ -40,7 +47,7 @@ public class Order {
    * this method uses an iterator because a 'for' loop + .get() is O(n^2) for a linked list
    * @return returns the total after calculating it
    */
-  public int calcTotal() {
+  public double calcTotal() {
     Iterator<Sandwich> iterator = sandwiches.iterator();
     while (iterator.hasNext()) {
       Sandwich sandwich = iterator.next();
@@ -84,7 +91,7 @@ public class Order {
   /**
    * @return int
    */
-  public int getTotal() {
+  public double getTotal() {
     return total;
   }
 
@@ -107,6 +114,13 @@ public class Order {
    */
   public long getStoreID() {
     return storeID;
+  }
+
+  /**
+   * @return LocalDateTime from java.time.LocalDateTime
+   */
+  public LocalDateTime getDate() {
+    return dateOrdered;
   }
 
   /*
