@@ -72,13 +72,6 @@ public class Sandwich extends Item {
    */
 
   /**
-   * @param type the type of sandwich [String]
-   */
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  /**
    * @param size size of the sandwich (2-15 in inches) [byte]
    */
   public void setSize(byte size) {
