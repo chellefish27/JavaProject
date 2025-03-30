@@ -1,9 +1,6 @@
-import com.sun.jdi.connect.spi.TransportService;
-
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Joaquin
@@ -71,16 +68,16 @@ public class Order {
    */
 
   /**
-   * @return List<Sandwich>
+   * @return LinkedList<Sandwich>
    */
-  public List<Sandwich> getSandwiches() {
+  public LinkedList<Sandwich> getSandwiches() {
     return sandwiches;
   }
 
   /**
-   * @return List<Drink>
+   * @return LinkedList<Drink>
    */
-  public List<Drink> getDrinks() {
+  public LinkedList<Drink> getDrinks() {
     return drinks;
   }
 
@@ -131,17 +128,17 @@ public class Order {
    */
 
   /**
-   * @param sandwiches set the entire sandwiches linked list [List<Sandwich>]
+   * @param sandwiches set the entire sandwiches linked list [LinkedList<Sandwich>]
    */
-  public void setSandwiches(List<Sandwich> sandwiches) {
-    this.sandwiches = new LinkedList<>(sandwiches);
+  public void setSandwiches(LinkedList<Sandwich> sandwiches) {
+    this.sandwiches = sandwiches;
   }
 
   /**
-   * @param drinks set the entire drinks linked list [List<Drink>]
+   * @param drinks set the entire drinks linked list [LinkedList<Drink>]
    */
-  public void setDrinks(List<Drink> drinks) {
-    this.drinks = new LinkedList<>(drinks);
+  public void setDrinks(LinkedList<Drink> drinks) {
+    this.drinks = drinks;
   }
 
   /**

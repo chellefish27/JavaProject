@@ -40,9 +40,9 @@ public class Sandwich extends Item {
 
   /**
    *
-   * @return List<String> a List of all the toppings
+   * @return LinkedList<String> a Linked List of all the toppings
    */
-  public List<String> getToppings() {
+  public LinkedList<String> getToppings() {
     return toppings;
   }
 
@@ -80,10 +80,10 @@ public class Sandwich extends Item {
   }
 
   /**
-   * @param toppings is a List of all the toppings on the sandwich [List<String>]
+   * @param toppings is a Linked List of all the toppings on the sandwich [LinkedList<String>]
    */
-  public void setToppings(List<String> toppings) {
-    this.toppings = new LinkedList<>(toppings);
+  public void setToppings(LinkedList<String> toppings) {
+    this.toppings = toppings;
   }
 
   /**
