@@ -27,8 +27,8 @@ public class Frame extends JFrame implements ActionListener, TableModelListener 
 
     //Customer Data Panel components
     private JTable customerTable, pastOrderTable;
-    private JLabel searchByEmail;
-    private JScrollPane customerScroll, pastOrderScrollPane;
+    private JLabel searchByEmail, sandwichType, sandwichSize, sandwichHasBacon, sandwichToasted, sandwichToppings, toysIncluded;
+    private JScrollPane customerScroll, pastOrderScrollPane, orderSummaryScrollPane;
     private JTextField searchEmail;
     private JComboBox<String> emailEndings;
     private DefaultTableModel orderModelTable;
@@ -138,6 +138,44 @@ public class Frame extends JFrame implements ActionListener, TableModelListener 
         pastOrderScrollPane = new JScrollPane(pastOrderTable);
         pastOrderScrollPane.setBounds(550, 100, 500, 350);
 
+        //make JPanel to add to Scroll Panel
+        JPanel summaryPanel = new JPanel();
+        summaryPanel.setLayout(null);
+        summaryPanel.setBounds(0, 0, 500, 275);
+
+        //initialize JLabels for past order summary
+        //sandwichType, sandwichSize, sandwichHasBacon, sandwichToasted, sandwichToppings, toysIncluded;
+        sandwichType = new JLabel("Sandwich Type: ");
+        sandwichType.setFont(new Font("Arial", Font.PLAIN, 15));
+        sandwichType.setBounds(25, 0, 450, 30);
+
+        sandwichSize = new JLabel("Sandwich Size: ");
+        sandwichSize.setFont(new Font("Arial", Font.PLAIN, 15));
+        sandwichSize.setBounds(25, 50, 450, 30);
+
+        sandwichHasBacon = new JLabel("Sandwich Has Bacon: ");
+        sandwichHasBacon.setFont(new Font("Arial", Font.PLAIN, 15));
+        sandwichHasBacon.setBounds(25, 100, 450, 30);
+
+        sandwichToasted = new JLabel("Sandwich is Toasted: ");
+        sandwichToasted.setFont(new Font("Arial", Font.PLAIN, 15));
+        sandwichToasted.setBounds(25, 150, 450, 30);
+
+        sandwichToppings = new JLabel("Sandwich Toppings: ");
+        sandwichToppings.setFont(new Font("Arial", Font.PLAIN, 15));
+        sandwichToppings.setBounds(25, 200, 450, 30);
+
+        //add labels to panel
+        summaryPanel.add(sandwichType);
+        summaryPanel.add(sandwichSize);
+        summaryPanel.add(sandwichHasBacon);
+        summaryPanel.add(sandwichToasted);
+        summaryPanel.add(sandwichToppings);
+
+        //add JPanel to Summary Panel
+        orderSummaryScrollPane = new JScrollPane(summaryPanel);
+        orderSummaryScrollPane.setBounds(550, 475, 500, 275);
+
 
         //add Elements to customerDataPanel
         customerDataPanel.add(customerScroll);
@@ -145,6 +183,7 @@ public class Frame extends JFrame implements ActionListener, TableModelListener 
         customerDataPanel.add(searchEmail);
         customerDataPanel.add(emailEndings);
         customerDataPanel.add(pastOrderScrollPane);
+        customerDataPanel.add(orderSummaryScrollPane);
 
 
         //add customerData panel to Frame and show (Customer data panel is default window)
@@ -167,13 +206,15 @@ public class Frame extends JFrame implements ActionListener, TableModelListener 
             System.out.println(emailEndings.getSelectedItem());
         }
     }
+
     //ran when window closes, closes Frame then terminates the program
-    public void closeWindow() {
+    private void closeWindow() {
         this.dispose();
         System.exit(0);
     }
 
-    public void changePastOrders() {
+    //refreshes the past order table with the selected customers' past order data
+    private void changePastOrders() {
         //check to make sure selectedCustomer exists
         if (selectedCustomer == null) return;
 
@@ -187,5 +228,15 @@ public class Frame extends JFrame implements ActionListener, TableModelListener 
             Object[] data = selectedCustomer.getPastOrders().get(i).split(",");
             orderModelTable.addRow(new Object[] {data[0], data[1], data[2]});
         }
+    }
+
+    /**
+     *
+     * @param order An Order Object, passed in by the past order table
+     *
+     */
+
+    private void updateSummary(Order order) {
+
     }
 }
