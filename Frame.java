@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /*
     Author : Owen Reid
@@ -107,7 +108,7 @@ public class Frame extends JFrame implements ActionListener, TableModelListener 
         searchEmail.setFont(new Font("Arial", Font.PLAIN, 18));
 
         //Email Ending Box
-        String[] endings = {"@gmail.com", "@outlook.com", "@yahoo.com"};
+        String[] endings = {"@gmail.com", "@outlook.com", "@yahoo.com", "Other"};
         emailEndings = new JComboBox<>(endings);
         emailEndings.setBounds(350, 45, 150, 50);
         emailEndings.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -203,7 +204,8 @@ public class Frame extends JFrame implements ActionListener, TableModelListener 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == emailEndings) {
-            System.out.println(emailEndings.getSelectedItem());
+            String emailEnding = (Objects.equals(emailEndings.getSelectedItem(), "Other")) ? "" : (String) emailEndings.getSelectedItem();
+            System.out.println(emailEnding);
         }
     }
 
