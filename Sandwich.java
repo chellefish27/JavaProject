@@ -5,7 +5,7 @@
 
 import java.util.LinkedList;
 
-class Sandwich extends Item {
+public class Sandwich extends Item {
   protected byte size;
   protected LinkedList<String> toppings = new LinkedList<>();
   protected boolean hasBacon;

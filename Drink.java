@@ -3,26 +3,27 @@
  * @see Item
  */
 
-enum Size {
-    SMALL,
-    MEDIUM
-    LARGE;
-}
 
-enum Temperature {
-    HOT,
-    WARM,
-    COLD;
-}
+public class Drink extends Item {
+    enum Size {
+        SMALL,
+        MEDIUM,
+        LARGE;
+    }
 
-enum IceLevel {
-    NONE,
-    LOW,
-    MEDIUM,
-    HIGH;
-}
+    enum Temperature {
+        HOT,
+        WARM,
+        COLD;
+    }
 
-class Drink extends Item {
+    enum IceLevel {
+        NONE,
+        LOW,
+        MEDIUM,
+        HIGH;
+    }
+
     private Size size;
     private Temperature temp;
     private IceLevel ice;
