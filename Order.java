@@ -89,7 +89,7 @@ public class Order {
   }
 
   /**
-   * @return int
+   * @return double
    */
   public double getTotal() {
     return total;
@@ -117,7 +117,7 @@ public class Order {
   }
 
   /**
-   * @return LocalDateTime from java.time.LocalDateTime
+   * @return LocalDate from java.time.LocalDate
    */
   public LocalDate getDate() {
     return dateOrdered;
@@ -149,7 +149,7 @@ public class Order {
   }
 
   /**
-   * @param total the total price of the order [int]
+   * @param total the total price of the order [double]
    */
   public void setTotal(double total) {
     this.total = total;

@@ -35,7 +35,7 @@ public abstract class Item {
     }
 
     /**
-     * @param price the price of the food [short]
+     * @param price the price of the food [double]
      */
     public void setPrice(double price) {
         this.price = price;
