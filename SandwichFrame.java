@@ -67,6 +67,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         customerDataPanel = new JPanel();
         customerDataPanel.setLayout(null);
         customerDataPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        customerDataPanel.setBackground(Color.gray);
 
         //Adding stuff to the customerDataPanel
 
@@ -97,6 +98,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         };
 
         customerTable = new JTable(modelTable);
+        customerTable.setBackground(Color.white);
         /*
             Allows for table to be clickable, overriding this way because easier to keep track of for multiple tables, and
             more type safe because I know a customer will always be in the 0th column and String in other column
@@ -123,22 +125,24 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
         //initialize scrollPane and add table to it
         customerScroll = new JScrollPane(customerTable);
-        customerScroll.setBounds(0, 100, 500, 350);
+        customerScroll.setBounds(25, 100, 500, 350);
+        //customerScroll.getViewport().setBackground(Color.lightGray);
 
         //Initialize search by email label
         searchByEmail = new JLabel("Search By Email");
-        searchByEmail.setBounds(0, 15, 250, 25);
+        searchByEmail.setBounds(25, 15, 250, 25);
         searchByEmail.setFont(new Font("Arial" ,Font.PLAIN, 20));
+        searchByEmail.setForeground(Color.white);
 
         //Initialize searchEmail text field
         searchEmail = new JTextField();
-        searchEmail.setBounds(0, 45, 350, 50);
+        searchEmail.setBounds(25, 45, 350, 50);
         searchEmail.setFont(new Font("Arial", Font.PLAIN, 18));
 
         //Email Ending Box
         String[] endings = {"@gmail.com", "@outlook.com", "@yahoo.com", "Other"};
         emailEndings = new JComboBox<>(endings);
-        emailEndings.setBounds(350, 45, 150, 50);
+        emailEndings.setBounds(375, 45, 150, 50);
         emailEndings.setFont(new Font("Arial", Font.PLAIN, 18));
         emailEndings.setBackground(Color.white);
         emailEndings.addActionListener(this);
