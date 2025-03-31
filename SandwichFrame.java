@@ -1,9 +1,13 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +31,7 @@ import java.util.Objects;
 
 public class SandwichFrame extends JFrame implements ActionListener, TableModelListener {
     //normal variables
-    private final int FRAME_WIDTH = 1080;
+    private final int FRAME_WIDTH = 800;
     private final int FRAME_HEIGHT = 800;
     private Customer selectedCustomer;
 
@@ -35,13 +39,14 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     private JPanel customerDataPanel, orderingPanel;
 
     //Customer Data Panel components
-    private JTable customerTable, pastOrderTable;
-    private JLabel searchByEmail, sandwichType, sandwichSize, sandwichHasBacon, sandwichToasted, sandwichToppings, toysIncluded;
-    private JScrollPane customerScroll, pastOrderScrollPane, orderSummaryScrollPane;
-    private JTextField searchEmail;
-    private JComboBox<String> emailEndings;
-    private DefaultTableModel orderModelTable;
-
+    private final JTable customerTable, pastOrderTable;
+    private JLabel searchByEmail, sandwichType, sandwichSize, sandwichHasBacon, sandwichToasted, sandwichToppings, toysIncluded, logoLabel;
+    private final JScrollPane customerScroll, pastOrderScrollPane, orderSummaryScrollPane;
+    private final JTextField searchEmail;
+    private final JComboBox<String> emailEndings;
+    private final DefaultTableModel orderModelTable;
+    private final JButton customerDataButton = new JButton("Customer Data");
+    private BufferedImage logo;
     /**
      *
      * Constructor for Sandwich Frame - responsible for creating initial instance of the frame
@@ -64,12 +69,71 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         });
 
         //initialize customerDataPanel
-        customerDataPanel = new JPanel();
+        customerDataPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.decode("#46756F"));
+                g.fillRect(0, 0, 200, 800);
+                g.setColor(Color.decode("#C2C5BB"));
+                g.fillRect(235, 10, 525, 730);
+            }
+        };
         customerDataPanel.setLayout(null);
         customerDataPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-        customerDataPanel.setBackground(Color.gray);
+        customerDataPanel.setBackground(Color.decode("#77B28C"));
+
+        //initialize logo image
+
+        try {
+            logo = ImageIO.read(new File("cool sandwich.png"));
+        }
+        catch (IOException IOE) {
+            System.err.println(IOE);
+        }
+        if (logo != null) {
+            logoLabel = new JLabel(new ImageIcon(logo));
+            logoLabel.setBounds(25, 0, 150, 150);
+        }
 
         //Adding stuff to the customerDataPanel
+
+        //Responsible for adding the "Customer Data" button to the side panel
+
+        customerDataButton.setBounds(0, 140, 200, 50);
+        customerDataButton.setOpaque(false);
+        customerDataButton.setContentAreaFilled(false);
+        customerDataButton.setBorderPainted(false);
+        customerDataButton.setFocusPainted(false);
+        customerDataButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        customerDataButton.setForeground(Color.white);
+        customerDataButton.addMouseListener(new MouseAdapter() {
+
+            /**
+             * Highlights the button when the mouse is hovering over it
+             * @param e the event to be processed
+             */
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                customerDataButton.setContentAreaFilled(true);
+                customerDataButton.setOpaque(true);
+                customerDataButton.setBackground(Color.decode("#65A49C"));
+            }
+
+            /**
+             * Un-highlights the button when the mouse is no longer hovering over it
+             * @param e the event to be processed
+             */
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                customerDataButton.setContentAreaFilled(false);
+                customerDataButton.setOpaque(false);
+            }
+        });
+        customerDataButton.addActionListener(this);
+
 
         //initialize customer table
 
@@ -125,27 +189,29 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
         //initialize scrollPane and add table to it
         customerScroll = new JScrollPane(customerTable);
-        customerScroll.setBounds(25, 100, 500, 350);
-        //customerScroll.getViewport().setBackground(Color.lightGray);
+        customerScroll.setBounds(250, 100, 500, 200);
+        //customerScroll.getViewport().setBackground(Color.decode("#C2C5BB"));
 
         //Initialize search by email label
         searchByEmail = new JLabel("Search By Email");
-        searchByEmail.setBounds(25, 15, 250, 25);
+        searchByEmail.setBounds(250, 15, 250, 25);
         searchByEmail.setFont(new Font("Arial" ,Font.PLAIN, 20));
         searchByEmail.setForeground(Color.white);
 
         //Initialize searchEmail text field
         searchEmail = new JTextField();
-        searchEmail.setBounds(25, 45, 350, 50);
+        searchEmail.setBounds(250, 45, 350, 50);
         searchEmail.setFont(new Font("Arial", Font.PLAIN, 18));
+        searchEmail.setBorder(BorderFactory.createLineBorder(Color.white));
 
         //Email Ending Box
         String[] endings = {"@gmail.com", "@outlook.com", "@yahoo.com", "Other"};
         emailEndings = new JComboBox<>(endings);
-        emailEndings.setBounds(375, 45, 150, 50);
+        emailEndings.setBounds(375+225, 45, 150, 50);
         emailEndings.setFont(new Font("Arial", Font.PLAIN, 18));
         emailEndings.setBackground(Color.white);
         emailEndings.addActionListener(this);
+        emailEndings.setBorder(BorderFactory.createLineBorder(Color.white));
 
         //initialize Past Orders Table
         String[] pastOrderCol = {"Item", "Cost", "Date of Purchase"};
@@ -183,7 +249,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
         //initialize past order scroll pane
         pastOrderScrollPane = new JScrollPane(pastOrderTable);
-        pastOrderScrollPane.setBounds(550, 100, 500, 350);
+        pastOrderScrollPane.setBounds(250, 315, 500, 200);
 
         //make JPanel to add to Scroll Panel
         JPanel summaryPanel = new JPanel();
@@ -221,7 +287,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
         //add JPanel to Summary Panel
         orderSummaryScrollPane = new JScrollPane(summaryPanel);
-        orderSummaryScrollPane.setBounds(550, 475, 500, 275);
+        orderSummaryScrollPane.setBounds(250, 530, 500, 200);
 
 
         //add Elements to customerDataPanel
@@ -231,7 +297,8 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         customerDataPanel.add(emailEndings);
         customerDataPanel.add(pastOrderScrollPane);
         customerDataPanel.add(orderSummaryScrollPane);
-
+        customerDataPanel.add(customerDataButton);
+        if (logoLabel != null) customerDataPanel.add(logoLabel);
 
         //add customerData panel to Frame and show (Customer data panel is default window)
         this.add(customerDataPanel);
