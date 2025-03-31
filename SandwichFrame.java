@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *  @author Owen Reid
+ * Creates graphical user interface for the sandwich tracker using {@link JFrame}
+ * @see java.awt.event.ActionListener
+ * @see javax.swing.event.TableModelListener
+ * @author Owen Reid
  *
  */
 
@@ -39,7 +42,12 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     private JComboBox<String> emailEndings;
     private DefaultTableModel orderModelTable;
 
-    //Constructor for the Frame class, creates the frame when a new frame object is made
+    /**
+     *
+     * Constructor for Sandwich Frame - responsible for creating initial instance of the frame
+     *
+     */
+
     public SandwichFrame() {
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -50,7 +58,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
-                //call save function where when implemented
+                //Main.writeCustomers(Main.customers);
                 closeWindow();
             }
         });
@@ -73,7 +81,15 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         }
 
         DefaultTableModel modelTable = new DefaultTableModel(tableData, colNames) {
-            //Override modelTable's isCellEditable function to control edit ability
+
+            /**
+             * Overrides isCellEditable in anonymous class to prevent editing of modelTable
+             * @see javax.swing.table.DefaultTableModel#isCellEditable(int, int) 
+             * @param row          the row whose value is to be queried
+             * @param col          the column whose value is to be queried
+             * @return             returns false
+             */
+
             @Override
             public boolean isCellEditable(int row, int col) {
                 return false;
@@ -86,6 +102,13 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             more type safe because I know a customer will always be in the 0th column and String in other column
          */
         customerTable.addMouseListener(new MouseAdapter() {
+
+            /**
+             * Declares anonymous class to override MouseAdapters' mouseClicked method to store rows clicked in table
+             *
+             * @param e the event to be processed
+             */
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = customerTable.rowAtPoint(e.getPoint());
@@ -134,6 +157,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             pastOrderData[i][2] = savedOrders.get(i).getDate();
         }
         orderModelTable = new DefaultTableModel(pastOrderData, pastOrderCol) {
+            //already java given java doc above
             @Override
             public boolean isCellEditable(int row, int col) {
                 return false;
@@ -143,6 +167,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
         //adds mouse detection for the table
         pastOrderTable.addMouseListener(new MouseAdapter() {
+            //already java given java doc above
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = pastOrderTable.rowAtPoint(e.getPoint());
@@ -217,7 +242,10 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
     }
 
-    //Overrides actionPerformed method
+    /**
+     * Used to add functionality to items in the GUI
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == emailEndings) {
@@ -226,13 +254,21 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         }
     }
 
-    //ran when window closes, closes Frame then terminates the program
+    /**
+     *
+     * closes window and terminates program, implemented to make calling saving method before closing possible
+     *
+     */
     private void closeWindow() {
         this.dispose();
         System.exit(0);
     }
 
-    //refreshes the past order table with the selected customers' past order data
+    /**
+     *
+     * called when row is selected inside customer table removes all rows and replaces past orders with current selected customers' past orders
+     *
+     */
     private void changePastOrders() {
         //check to make sure selectedCustomer exists
         if (selectedCustomer == null) return;
@@ -251,6 +287,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
     /**
      *
+     * Updates the order summary scroll pane which displays the expanded information of the selected customers past orders
      * @param order An Order Object, passed in by the past order table
      *
      */
