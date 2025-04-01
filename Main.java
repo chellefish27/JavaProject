@@ -1,3 +1,17 @@
+package mainPackage;
+
+import java.util.ArrayList;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.File;
+import java.io.IOException;
+
+
+import java.awt.Frame;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.io.BufferedReader;
@@ -89,4 +103,32 @@ public class Main {
 		   e.printStackTrace();
 	   }
   }
+  public static Customer[] sortEmails(String query) {
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for(int i = 0; i < customers.size(); i++) {
+			//if customer email string greater than or equal to query length
+			if(customers.get(i).getEmail().startsWith(query)) {
+				ids.add(i);
+			}
+		}
+		Customer returnArray[] = new Customer[ids.size()];
+		for(int i = 0; i < ids.size(); i++) {
+			returnArray[i] = customers.get(ids.get(i)); 
+		}
+		boolean tmp = false;
+		int dynamicLength = returnArray.length-1;
+		while(!tmp) {
+			tmp = true;
+			for(int i = 0; i<dynamicLength;i++) {
+				if(returnArray[i].getEmail().compareTo(returnArray[i+1].getEmail())>0) {
+					Customer tmpCustomer = returnArray[i];
+					returnArray[i] = returnArray[i+1];
+					returnArray[i+1] = tmpCustomer;
+					tmp = false;
+				}
+			}
+			dynamicLength--;
+		}
+		return returnArray;
+	}
 }
