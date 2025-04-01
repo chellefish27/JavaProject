@@ -46,7 +46,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     private final JComboBox<String> emailEndings;
     private final DefaultTableModel orderModelTable;
     private final JButton customerDataButton = new JButton("Customer Data");
-    private BufferedImage logo;
+    private BufferedImage logo, icon;
     /**
      *
      * Constructor for Sandwich Frame - responsible for creating initial instance of the frame
@@ -68,6 +68,14 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
                 closeWindow();
             }
         });
+        //initialize Icon Image - I could use a throws declaration, but then the frame wouldn't open if there was an exception
+        try {
+            icon = ImageIO.read(new File("Sandwich Icon.png"));
+            this.setIconImage(icon);
+        }
+        catch (IOException IOE) {
+            System.err.println("Error loading Icon Image");
+        }
 
         //initialize customerDataPanel
         customerDataPanel = new JPanel() {
