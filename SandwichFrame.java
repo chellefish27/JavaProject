@@ -59,6 +59,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         this.setResizable(false);
         this.setLayout(null);
         this.setLocationRelativeTo(null);
+        this.setTitle("Joaquin's Filipino Sandwich Shop");
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -70,6 +71,13 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
         //initialize customerDataPanel
         customerDataPanel = new JPanel() {
+
+            /**
+             *
+             * Paints the rectangles on the GUI
+             * @param g the <code>Graphics</code> object to protect
+             */
+
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
