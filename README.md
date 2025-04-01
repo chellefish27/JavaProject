@@ -9,7 +9,7 @@ JavaProject
 # TODO (Joaquin)
 - create a randomized, unique ID for each store
 
-#TODO (Owen)
+# TODO (Owen)
 - finish implementation for search by email text box
 - get add order panel set up
 - get add customer panel set up
