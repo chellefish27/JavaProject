@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 
 /**
  * Creates graphical user interface for the sandwich tracker using {@link JFrame}
@@ -219,6 +221,25 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         searchEmail.setBounds(250, 45, 350, 50);
         searchEmail.setFont(new Font("Arial", Font.PLAIN, 18));
         searchEmail.setBorder(BorderFactory.createLineBorder(Color.white));
+        searchEmail.getDocument().addDocumentListener(new DocumentListener() {
+            //String ending = ();
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                //System.out.println("changedUpdate");
+            }
+            
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                System.out.println("Text is : " + searchEmail.getText());
+            }
+            
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                System.out.println("Text is : " + searchEmail.getText());
+            }
+            
+        });
+
 
         //Email Ending Box
         String[] endings = {"@gmail.com", "@outlook.com", "@yahoo.com", "Other"};
