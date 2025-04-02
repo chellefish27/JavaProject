@@ -1,5 +1,3 @@
-package mainPackage;
-
 import java.util.ArrayList;
 
 import java.io.BufferedReader;
