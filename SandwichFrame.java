@@ -43,12 +43,14 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     //Customer Data Panel components
     private final JTable customerTable, pastOrderTable;
     private JLabel searchByEmail, sandwichType, sandwichSize, sandwichHasBacon, sandwichToasted, sandwichToppings, toysIncluded, logoLabel;
-    private final JScrollPane customerScroll, pastOrderScrollPane, orderSummaryScrollPane;
+    private final JScrollPane customerScroll, pastOrderScrollPane, orderSummaryScrollPane, rightScroll;
     private final JTextField searchEmail;
     private final JComboBox<String> emailEndings;
-    private final DefaultTableModel orderModelTable;
-    private final JButton customerDataButton = new JButton("Customer Data");
+    private final DefaultTableModel orderModelTable, modelTable;
+    private final JButton customerDataButton = new JButton("Customer Data"), createOrderButton = new JButton("Create Order");
     private BufferedImage logo, icon;
+    private Timer timer;
+
     /**
      *
      * Constructor for Sandwich Frame - responsible for creating initial instance of the frame
@@ -93,8 +95,6 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
                 super.paintComponent(g);
                 g.setColor(Color.decode("#46756F"));
                 g.fillRect(0, 0, 200, 800);
-                g.setColor(Color.decode("#C2C5BB"));
-                g.fillRect(235, 10, 525, 730);
             }
         };
         customerDataPanel.setLayout(null);
@@ -152,6 +152,41 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         });
         customerDataButton.addActionListener(this);
 
+        //setup order button
+        createOrderButton.setBounds(0, 195, 200, 50);
+        createOrderButton.setOpaque(false);
+        createOrderButton.setContentAreaFilled(false);
+        createOrderButton.setBorderPainted(false);
+        createOrderButton.setFocusPainted(false);
+        createOrderButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        createOrderButton.setForeground(Color.white);
+        createOrderButton.addMouseListener(new MouseAdapter() {
+
+            /**
+             * Highlights the button when the mouse is hovering over it
+             * @param e the event to be processed
+             */
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                createOrderButton.setContentAreaFilled(true);
+                createOrderButton.setOpaque(true);
+                createOrderButton.setBackground(Color.decode("#65A49C"));
+            }
+
+            /**
+             * Un-highlights the button when the mouse is no longer hovering over it
+             * @param e the event to be processed
+             */
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                createOrderButton.setContentAreaFilled(false);
+                createOrderButton.setOpaque(false);
+            }
+        });
+        createOrderButton.addActionListener(this);
+
 
         //initialize customer table
 
@@ -163,7 +198,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             tableData[i][1] = Main.customers.get(i).getEmail();
         }
 
-        DefaultTableModel modelTable = new DefaultTableModel(tableData, colNames) {
+        modelTable = new DefaultTableModel(tableData, colNames) {
 
             /**
              * Overrides isCellEditable in anonymous class to prevent editing of modelTable
@@ -207,18 +242,18 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
         //initialize scrollPane and add table to it
         customerScroll = new JScrollPane(customerTable);
-        customerScroll.setBounds(250, 100, 500, 200);
+        customerScroll.setBounds(15, 100, 500, 200);
         //customerScroll.getViewport().setBackground(Color.decode("#C2C5BB"));
 
         //Initialize search by email label
         searchByEmail = new JLabel("Search By Email");
-        searchByEmail.setBounds(250, 15, 250, 25);
+        searchByEmail.setBounds(15, 15, 250, 25);
         searchByEmail.setFont(new Font("Arial" ,Font.PLAIN, 20));
         searchByEmail.setForeground(Color.white);
 
         //Initialize searchEmail text field
         searchEmail = new JTextField();
-        searchEmail.setBounds(250, 45, 350, 50);
+        searchEmail.setBounds(15, 45, 350, 50);
         searchEmail.setFont(new Font("Arial", Font.PLAIN, 18));
         searchEmail.setBorder(BorderFactory.createLineBorder(Color.white));
         searchEmail.getDocument().addDocumentListener(new DocumentListener() {
@@ -230,12 +265,16 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             
             @Override
             public void removeUpdate(DocumentEvent e) {
-                System.out.println("Text is : " + searchEmail.getText());
+                Customer[] customerArr = Main.sortEmails(searchEmail.getText());
+                updateTable(customerArr);
+
             }
             
             @Override
             public void insertUpdate(DocumentEvent e) {
-                System.out.println("Text is : " + searchEmail.getText());
+                Customer[] customerArr = Main.sortEmails(searchEmail.getText());
+                updateTable(customerArr);
+
             }
             
         });
@@ -244,7 +283,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         //Email Ending Box
         String[] endings = {"@gmail.com", "@outlook.com", "@yahoo.com", "Other"};
         emailEndings = new JComboBox<>(endings);
-        emailEndings.setBounds(375+225, 45, 150, 50);
+        emailEndings.setBounds(365, 45, 150, 50);
         emailEndings.setFont(new Font("Arial", Font.PLAIN, 18));
         emailEndings.setBackground(Color.white);
         emailEndings.addActionListener(this);
@@ -286,7 +325,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
         //initialize past order scroll pane
         pastOrderScrollPane = new JScrollPane(pastOrderTable);
-        pastOrderScrollPane.setBounds(250, 315, 500, 200);
+        pastOrderScrollPane.setBounds(15, 315, 500, 200);
 
         //make JPanel to add to Scroll Panel
         JPanel summaryPanel = new JPanel();
@@ -315,26 +354,59 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         sandwichToppings.setFont(new Font("Arial", Font.PLAIN, 15));
         sandwichToppings.setBounds(25, 200, 450, 30);
 
+        toysIncluded = new JLabel("Toy Included: ");
+        toysIncluded.setFont(new Font("Arial", Font.PLAIN, 15));
+        toysIncluded.setBounds(25, 250, 450, 30);
+
         //add labels to panel
         summaryPanel.add(sandwichType);
         summaryPanel.add(sandwichSize);
         summaryPanel.add(sandwichHasBacon);
         summaryPanel.add(sandwichToasted);
         summaryPanel.add(sandwichToppings);
+        summaryPanel.add(toysIncluded);
 
         //add JPanel to Summary Panel
         orderSummaryScrollPane = new JScrollPane(summaryPanel);
-        orderSummaryScrollPane.setBounds(250, 530, 500, 200);
+        orderSummaryScrollPane.setBounds(15, 530, 500, 200);
+
+        //initialize rightScroll and addElements
+        JPanel rightPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                g.setColor(Color.decode("#C2C5BB"));
+                g.fillRect(0, 0, 533, 741);
+            }
+        };
+        rightPanel.setLayout(null);
+        rightPanel.setPreferredSize(new Dimension(532, 2500));
+
+        rightPanel.add(customerScroll);
+        rightPanel.add(pastOrderScrollPane);
+        rightPanel.add(orderSummaryScrollPane);
+        rightPanel.add(searchByEmail);
+        rightPanel.add(searchEmail);
+        rightPanel.add(emailEndings);
+
+
+        rightScroll = new JScrollPane(rightPanel);
+        rightScroll.setBounds(230, 10, 532, 740);
+        rightScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        rightScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        rightScroll.setBorder(BorderFactory.createEmptyBorder());
+
 
 
         //add Elements to customerDataPanel
-        customerDataPanel.add(customerScroll);
-        customerDataPanel.add(searchByEmail);
-        customerDataPanel.add(searchEmail);
-        customerDataPanel.add(emailEndings);
-        customerDataPanel.add(pastOrderScrollPane);
-        customerDataPanel.add(orderSummaryScrollPane);
+        //customerDataPanel.add(customerScroll);
+        //customerDataPanel.add(searchByEmail);
+        //customerDataPanel.add(searchEmail);
+        //customerDataPanel.add(emailEndings);
+        //customerDataPanel.add(pastOrderScrollPane);
+        //customerDataPanel.add(orderSummaryScrollPane);
         customerDataPanel.add(customerDataButton);
+        customerDataPanel.add(createOrderButton);
+        customerDataPanel.add(rightScroll);
         if (logoLabel != null) customerDataPanel.add(logoLabel);
 
         //add customerData panel to Frame and show (Customer data panel is default window)
@@ -360,6 +432,33 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             String emailEnding = (Objects.equals(emailEndings.getSelectedItem(), "Other")) ? "" : (String) emailEndings.getSelectedItem();
             System.out.println(emailEnding);
         }
+        else if (e.getSource() == createOrderButton) {
+            timer = new Timer(1, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    rightScroll.getVerticalScrollBar().setValue(rightScroll.getVerticalScrollBar().getValue()+10);
+
+                    if (rightScroll.getVerticalScrollBar().getValue() == 1000) {
+                        timer.stop();
+                    }
+                }
+            });
+            timer.start();
+        }
+        else if (e.getSource() == customerDataButton) {
+            timer = new Timer(1, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    rightScroll.getVerticalScrollBar().setValue(rightScroll.getVerticalScrollBar().getValue()-10);
+
+                    if (rightScroll.getVerticalScrollBar().getValue() == 0) {
+                        timer.stop();
+                    }
+                }
+            });
+            timer.start();
+        }
+
     }
 
     /**
@@ -452,8 +551,28 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             sandwichToppings.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichToppings);
 
+            JLabel toyIncluded = new JLabel("Toy Included: " + sandwiches.get(i).getToy());
+            toyIncluded.setBounds(25, 250 + 50*i + 250*i, 450, 30);
+            toyIncluded.setFont(new Font("Arial", Font.PLAIN, 15));
+            newSummaryPanel.add(toyIncluded);
+
         }
         orderSummaryScrollPane.getViewport().removeAll();
         orderSummaryScrollPane.getViewport().add(newSummaryPanel);
+    }
+
+    /**
+     * updates the customer table based on the given array
+     * @param customerList
+     */
+    public void updateTable(Customer[] customerList) {
+
+        for (int i = modelTable.getRowCount()-1; i >= 0; i--) {
+            modelTable.removeRow(i);
+        }
+        for (Customer c : customerList) {
+            modelTable.addRow(new Object[] {c, c.getEmail()});
+            //System.out.println(c);
+        }
     }
 }
