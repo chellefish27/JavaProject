@@ -15,6 +15,7 @@ public class Order {
   private String confirmationCode;
   private long storeID;
   private final LocalDate dateOrdered;
+  private boolean paidWithPoints;
 
   public Order() {
     // implement randomized IDs later
@@ -123,6 +124,13 @@ public class Order {
     return dateOrdered;
   }
 
+  /**
+   * @return whether the order was paid using the customer's points on their membership card [boolean]
+   */
+  public boolean getPaidWithPoints() {
+    return paidWithPoints;
+  }
+
   /*
     ---------------> Setters <---------------
    */
@@ -183,6 +191,18 @@ public class Order {
     }
     this.confirmationCode = confirmationCode;
     return true;
+  }
+
+  /**
+   * @param paidWithPoints set whether the order was paid with points on the customer's membership card
+   */
+  public void setPaidWithPoints(Membership membership, boolean paidWithPoints) {
+    if (membership.getPoints() >= total) {
+      this.paidWithPoints = paidWithPoints;
+    }
+    else {
+      System.err.println("Not enough points");
+    }
   }
 
   /*
