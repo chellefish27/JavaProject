@@ -375,7 +375,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor(Color.decode("#C2C5BB"));
-                g.fillRect(0, 0, 533, 741);
+                g.fillRect(0, 0, 533, 2500);
             }
         };
         rightPanel.setLayout(null);
