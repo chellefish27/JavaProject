@@ -101,11 +101,13 @@ public class Main {
 		   e.printStackTrace();
 	   }
   }
+
+  //mainly made by Jay, with a few slight tweaks
   public static Customer[] sortEmails(String query) {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		for(int i = 0; i < customers.size(); i++) {
 			//if customer email string greater than or equal to query length
-			if(customers.get(i).getEmail().startsWith(query)) {
+			if(customers.get(i).getEmail().toLowerCase().startsWith(query.toLowerCase())) {
 				ids.add(i);
 			}
 		}
