@@ -1,6 +1,7 @@
 /**
  * @author Joaquin
  */
+
 public abstract class Item {
     protected String type;
     protected double price;
@@ -17,7 +18,7 @@ public abstract class Item {
     }
 
     /**
-     * @return short
+     * @return double
      */
     public double getPrice() {
         return price;
