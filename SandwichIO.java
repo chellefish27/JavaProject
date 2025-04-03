@@ -67,6 +67,7 @@ public class SandwichIO extends Thread {
             buffer.flip(); // prepare to read from the buffer
 
             channel.write(buffer); // write data directly to the file
+            channel.close();
         }
         catch (Exception e) {
             e.printStackTrace();
