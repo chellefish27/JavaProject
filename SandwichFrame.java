@@ -433,6 +433,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             System.out.println(emailEnding);
         }
         else if (e.getSource() == createOrderButton) {
+            if (rightScroll.getVerticalScrollBar().getValue() == 1000) return;
             timer = new Timer(1, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
