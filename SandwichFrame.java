@@ -265,14 +265,14 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             
             @Override
             public void removeUpdate(DocumentEvent e) {
-                Customer[] customerArr = Main.sortEmails(searchEmail.getText());
+                Customer[] customerArr = Main.sortEmails(searchEmail.getText(), getAppendedEmailEnding());
                 updateTable(customerArr);
 
             }
             
             @Override
             public void insertUpdate(DocumentEvent e) {
-                Customer[] customerArr = Main.sortEmails(searchEmail.getText());
+                Customer[] customerArr = Main.sortEmails(searchEmail.getText(), getAppendedEmailEnding());
                 updateTable(customerArr);
 
             }
@@ -430,7 +430,10 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == emailEndings) {
             String emailEnding = (Objects.equals(emailEndings.getSelectedItem(), "Other")) ? "" : (String) emailEndings.getSelectedItem();
-            System.out.println(emailEnding);
+            if (searchEmail.getText() != null)  {
+                Customer[] arr = Main.sortEmails(searchEmail.getText(), getAppendedEmailEnding());
+                updateTable(arr);
+            }
         }
         else if (e.getSource() == createOrderButton) {
             if (rightScroll.getVerticalScrollBar().getValue() == 1000) return;
@@ -564,7 +567,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
     /**
      * updates the customer table based on the given array
-     * @param customerList
+     * @param customerList list of customers to be displayed in table
      */
     public void updateTable(Customer[] customerList) {
 
@@ -575,5 +578,19 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             modelTable.addRow(new Object[] {c, c.getEmail()});
             //System.out.println(c);
         }
+    }
+
+    /**
+     * Gets selected email ending from Email Endings drop down box
+     * @return email ending selected
+     */
+    /*
+        -- how this works is the ternary checks if the selected value is not other, in which it returns the selected value
+           if the value is other, it returns the string literal other, additionally if there is no selected value, the
+           resulting object from the JComboBox will be null, this will result in the selected value being null, resulting in false and
+           which results in the "other" term being returned.
+     */
+    private String getAppendedEmailEnding() {
+        return (!(emailEndings.getSelectedItem() == null) && !((String) emailEndings.getSelectedItem()).equalsIgnoreCase("other")) ? (String) emailEndings.getSelectedItem() : "other";
     }
 }
