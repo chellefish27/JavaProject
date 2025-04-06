@@ -35,14 +35,21 @@ public class SandwichIO extends Thread {
         }
     }
 
+
     /**
-     * write all data in a customer object into the file in JSON format
      * @param customer [Customer]
      */
-    public void customerWrite(Customer customer) {
+    public void addCustomer(Customer customer) {
+        customers.addLast(customer);
+    }
+
+    /**
+     * write all data in a customer object into the file in JSON format
+     */
+    public void customerWrite() {
         try {
             // add Customer object to the list
-            customers.addLast(customer);
+            // customers.addLast(customer);
             // open the file
             FileChannel channel = FileChannel.open(Paths.get("data.json"), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
 
@@ -60,6 +67,7 @@ public class SandwichIO extends Thread {
             buffer.flip(); // prepare to read from the buffer
 
             channel.write(buffer); // write data directly to the file
+            channel.close();
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ public class Customer {
     private String email;
     private String ID;
     private ArrayList<Order> pastOrders = new ArrayList<>();
+    private Membership membership;
 
     public Customer(String name, String email, ArrayList<Order> pastOrders) {
         this.name = name;
