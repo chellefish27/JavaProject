@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,8 +17,8 @@ import javax.swing.event.DocumentEvent;
 
 /**
  * Creates graphical user interface for the sandwich tracker using {@link JFrame}
- * @see java.awt.event.ActionListener
- * @see javax.swing.event.TableModelListener
+ * @see ActionListener
+ * @see TableModelListener
  * @author Owen Reid
  *
  */
@@ -50,6 +51,13 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     private final JButton customerDataButton = new JButton("Customer Data"), createOrderButton = new JButton("Create Order");
     private BufferedImage logo, icon;
     private Timer timer;
+
+    //Components for Order creation area
+    private JButton italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham;
+    private BufferedImage italianIMG;
+    private JCheckBox tomato;
+    private int mouseX, mouseY; //going to be used to track mouse cords for dragging frame
+
 
     /**
      *
@@ -137,6 +145,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
                 customerDataButton.setContentAreaFilled(true);
                 customerDataButton.setOpaque(true);
                 customerDataButton.setBackground(Color.decode("#65A49C"));
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
 
             /**
@@ -148,6 +157,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             public void mouseExited(MouseEvent e) {
                 customerDataButton.setContentAreaFilled(false);
                 customerDataButton.setOpaque(false);
+                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
         customerDataButton.addActionListener(this);
@@ -172,6 +182,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
                 createOrderButton.setContentAreaFilled(true);
                 createOrderButton.setOpaque(true);
                 createOrderButton.setBackground(Color.decode("#65A49C"));
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); //changes cursor type to the little hand thing
             }
 
             /**
@@ -183,6 +194,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             public void mouseExited(MouseEvent e) {
                 createOrderButton.setContentAreaFilled(false);
                 createOrderButton.setOpaque(false);
+                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
         createOrderButton.addActionListener(this);
@@ -202,7 +214,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
             /**
              * Overrides isCellEditable in anonymous class to prevent editing of modelTable
-             * @see javax.swing.table.DefaultTableModel#isCellEditable(int, int) 
+             * @see DefaultTableModel#isCellEditable(int, int)
              * @param row          the row whose value is to be queried
              * @param col          the column whose value is to be queried
              * @return             returns false
@@ -388,6 +400,47 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         rightPanel.add(searchEmail);
         rightPanel.add(emailEndings);
 
+        //add elements for order area
+        //italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham
+
+        try {
+            italianBMT = new JButton();
+            italianIMG = ImageIO.read(new File("ItalianBMT.png"));
+            italianBMT.setIcon(new ImageIcon(italianIMG));
+            italianBMT.setBounds(20, 1020, 180, 180);
+            italianBMT.setBorder(BorderFactory.createEmptyBorder());
+            italianBMT.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            });
+            italianBMT.addActionListener(this);
+            italianBMT.putClientProperty("MenuItem", MenuItems.ITALIAN_BMT);
+
+            //add right in the try catch so nothing breaks if exception is thrown
+            rightPanel.add(italianBMT);
+        }
+        catch (Exception IOE) {
+            System.err.println("Error loading image files");
+        }
+
+        //initialization for components to be used in order frame
+        tomato = new JCheckBox("Tomato");
+        tomato.setBounds(260, 80, 100, 25);
+        tomato.setBackground(Color.white);
+        tomato.setBorder(BorderFactory.createEmptyBorder());
+        tomato.setFocusPainted(false);
+
+
+
+
+        //--------------------------
 
         rightScroll = new JScrollPane(rightPanel);
         rightScroll.setBounds(230, 10, 532, 740);
@@ -398,16 +451,13 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
 
         //add Elements to customerDataPanel
-        //customerDataPanel.add(customerScroll);
-        //customerDataPanel.add(searchByEmail);
-        //customerDataPanel.add(searchEmail);
-        //customerDataPanel.add(emailEndings);
-        //customerDataPanel.add(pastOrderScrollPane);
-        //customerDataPanel.add(orderSummaryScrollPane);
         customerDataPanel.add(customerDataButton);
         customerDataPanel.add(createOrderButton);
         customerDataPanel.add(rightScroll);
         if (logoLabel != null) customerDataPanel.add(logoLabel);
+
+
+
 
         //add customerData panel to Frame and show (Customer data panel is default window)
         this.add(customerDataPanel);
@@ -461,6 +511,9 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
                 }
             });
             timer.start();
+        }
+        else if (e.getSource() instanceof JButton){
+            if (((JButton) e.getSource()).getClientProperty("MenuItem") != null) customizationFrame((JButton) e.getSource());
         }
 
     }
@@ -593,4 +646,110 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     private String getAppendedEmailEnding() {
         return (!(emailEndings.getSelectedItem() == null) && !((String) emailEndings.getSelectedItem()).equalsIgnoreCase("other")) ? (String) emailEndings.getSelectedItem() : "other";
     }
+
+    private void customizationFrame(JButton pressedButton) {
+
+        JFrame customizationFrame = new JFrame();
+        customizationFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        customizationFrame.setUndecorated(true); //turns off window's default window border
+        customizationFrame.setLayout(null);
+        customizationFrame.setResizable(false);
+        customizationFrame.setLocation(this.getLocation());
+        customizationFrame.setSize(500, 600);
+        customizationFrame.setTitle("Customize Sandwich");
+        customizationFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                customizationFrame.dispose();
+            }
+        });
+
+        //---- Create new window border ----
+
+            JPanel decoration = new JPanel();
+            decoration.setLayout(null);
+            decoration.setBounds(0, 0, customizationFrame.getWidth(), 30);
+            decoration.setBackground(Color.WHITE);
+
+            decoration.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    mouseX = e.getX();
+                    mouseY = e.getY();
+
+                }
+            });
+            decoration.addMouseMotionListener(new MouseMotionAdapter() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    customizationFrame.setLocation(e.getXOnScreen()-mouseX, e.getYOnScreen()-mouseY);
+                }
+            });
+
+            //---- Initialize X Icon ----
+            try {
+                BufferedImage xIcon = ImageIO.read(new File("XIcon.png"));
+
+                //add x icon
+                JButton xButton = new JButton();
+                xButton.setIcon(new ImageIcon(xIcon));
+                xButton.setBounds(3, 3, 30, 30);
+                xButton.setFocusPainted(false);
+                xButton.setBackground(Color.WHITE);
+                xButton.setBorder(BorderFactory.createEmptyBorder());
+                xButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        customizationFrame.dispose();
+                    }
+                });
+                decoration.add(xButton);
+            }
+            catch (IOException e) {
+                System.out.println("Error loading ordering menu - X Icon not found");
+            }
+
+
+            //add the decoration bar to the top of the screen (that's that the BorderLayout.NORTH does)
+            customizationFrame.add(decoration, BorderLayout.NORTH);
+
+        //---- Declare Components Locally (That don't need to access other frame) ----
+
+            JPanel panel = new JPanel();
+            panel.setLayout(null);
+            panel.setBounds(0, decoration.getHeight(), customizationFrame.getWidth(), customizationFrame.getHeight());
+            panel.setBackground(Color.WHITE);
+
+            JLabel sandwichIcon = new JLabel();
+            JLabel title = new JLabel();
+            title.setBounds(260, 20, 250, 50);
+            title.setFont(new Font("Arial", Font.PLAIN, 32));
+
+        //------------------------------------------
+
+        switch (pressedButton.getClientProperty("MenuItem")) {
+            case MenuItems.ITALIAN_BMT -> {
+                if (italianIMG != null) {
+                    sandwichIcon.setIcon(new ImageIcon(italianIMG));
+                    sandwichIcon.setBounds(20, 20, 180, 180);
+                }
+                title.setText("Italian BMT");
+
+
+                panel.add(title);
+                panel.add(sandwichIcon);
+                panel.add(tomato);
+
+                customizationFrame.add(panel);
+                customizationFrame.setVisible(true);
+            }
+
+            default -> {
+                System.err.println("Unexpected Value Received by Button Input");
+                customizationFrame.dispose();
+            }
+
+        }
+    }
+
 }
