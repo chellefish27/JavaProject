@@ -28,6 +28,47 @@ public class Drink extends Item {
     private Temperature temp;
     private IceLevel ice;
 
+    public Drink() {}
+
+
+    // for debugging purposes only
+    public Drink(Size size, Temperature temp, IceLevel ice) {
+        this.size = size;
+        this.temp = temp;
+        this.ice = ice;
+    }
+
+    /*
+    ---------------> Getters <---------------
+   */
+
+    /**
+     *
+     * @return Size enum
+     */
+    public Size getSize() {
+        return size;
+    }
+
+    /**
+     *
+     * @return Temperature enum
+     */
+    public Temperature getTemp() {
+        return temp;
+    }
+
+    /**
+     *
+     * @return IceLevel enum
+     */
+    public IceLevel getIce() {
+        return ice;
+    }
+
+    /*
+    ---------------> Setters <---------------
+    */
 
     /**
      * @param size an instance of Size enum [Size]
