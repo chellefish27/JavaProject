@@ -23,6 +23,7 @@ import java.util.List;
 
 public class Main {
 	static ArrayList<Customer> customers = new ArrayList<>();
+	static SandwichIO sandwichIO = new SandwichIO();
 	public static void main(String[] args) {
 		//when first run it will not be functional as there are no customers,
 		//once a customer is put in customerData.txt in the res folder, it will save it
@@ -31,35 +32,8 @@ public class Main {
 		//delete the line of code for next time as it will be automatically saved.
 		//readCustomers(customers);
 
-		SandwichIO sandwichIO = new SandwichIO();
-		//sandwichIO.run();
 
-		ArrayList<Order> pastOrders = new ArrayList<>();
-		ArrayList<Order> pastOrders2 = new ArrayList<>();
-		Sandwich sandwich = new Sandwich();
-		Sandwich sandwich2 = new Sandwich();
-		Order order = new Order();
-		Order order2 = new Order();
-
-		LinkedList<String> toppings= new LinkedList<>(List.of("Tomato", "Lettuce", "Garlic"));
-		sandwich.setToppings(toppings);
-		sandwich.setType("Funny Guy");
-
-		sandwich2.setToppings(toppings);
-		sandwich2.setType("Silly Sandwich");
-
-		order.addSandwich(sandwich);
-		order.addSandwich(sandwich2);
-		order.setTotal(12);
-		order2.addSandwich(sandwich2);
-		order2.setTotal(15);
-
-		pastOrders.add(order);
-		pastOrders.add(order2);
-		pastOrders2.add(order);
-
-		customers.add(new Customer("Shaggy", "shaggy@gmail.com", pastOrders));
-		customers.add(new Customer("Timothy", "Timothy@gmail.com", pastOrders2));
+		sandwichIO.run();
 
 		SwingUtilities.invokeLater(SandwichFrame::new);
 

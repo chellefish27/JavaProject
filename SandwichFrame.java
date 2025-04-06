@@ -78,8 +78,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                SandwichIO sandwichIO = new SandwichIO();
-                sandwichIO.customerWrite();
+                Main.sandwichIO.customerWrite();
                 closeWindow();
             }
         });
