@@ -36,7 +36,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     //normal variables
     private final int FRAME_WIDTH = 800;
     private final int FRAME_HEIGHT = 800;
-    private Customer selectedCustomer;
+    private static Customer selectedCustomer;
 
     //declaring panels and objects (such as labels etc.) that will be used
     private JPanel customerDataPanel, orderingPanel;
@@ -53,10 +53,12 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     private Timer timer;
 
     //Components for Order creation area
-    private JButton italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham;
-    private BufferedImage italianIMG;
-    private JCheckBox tomato;
+    private JButton italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham, confirmOrder;
+    private BufferedImage italianIMG, turkeyIMG, roastIMG, coldCutIMG, steakIMG, hamIMG;
+    private JCheckBox tomato, lettuce, onion, cheese, peppers, upgraded, bacon, toy, toasted;
     private int mouseX, mouseY; //going to be used to track mouse cords for dragging frame
+    private JComboBox<String> sizes;
+    JFrame customizationFrame;
 
 
     /**
@@ -404,10 +406,11 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         //italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham
 
         try {
+            //initialize italianBMT
             italianBMT = new JButton();
             italianIMG = ImageIO.read(new File("ItalianBMT.png"));
             italianBMT.setIcon(new ImageIcon(italianIMG));
-            italianBMT.setBounds(20, 1020, 180, 180);
+            italianBMT.setBounds(40, 1020, 180, 180);
             italianBMT.setBorder(BorderFactory.createEmptyBorder());
             italianBMT.addMouseListener(new MouseAdapter() {
                 @Override
@@ -423,7 +426,30 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             italianBMT.addActionListener(this);
             italianBMT.putClientProperty("MenuItem", MenuItems.ITALIAN_BMT);
 
+
+            //initialize turkey
+            turkeyBreast = new JButton();
+            turkeyIMG = ImageIO.read(new File("TurkeyBreast.png"));
+            turkeyBreast.setIcon(new ImageIcon(turkeyIMG));
+            turkeyBreast.setBounds(300, 1020, 180, 180);
+            turkeyBreast.setBorder(BorderFactory.createEmptyBorder());
+            turkeyBreast.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            });
+            turkeyBreast.addActionListener(this);
+            turkeyBreast.putClientProperty("MenuItem", MenuItems.TURKEY_BREAST);
+
+
             //add right in the try catch so nothing breaks if exception is thrown
+            rightPanel.add(turkeyBreast);
             rightPanel.add(italianBMT);
         }
         catch (Exception IOE) {
@@ -431,13 +457,75 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         }
 
         //initialization for components to be used in order frame
+
         tomato = new JCheckBox("Tomato");
         tomato.setBounds(260, 80, 100, 25);
         tomato.setBackground(Color.white);
         tomato.setBorder(BorderFactory.createEmptyBorder());
         tomato.setFocusPainted(false);
 
+        lettuce = new JCheckBox("Lettuce");
+        lettuce.setBounds(260, 110, 100, 25);
+        lettuce.setBackground(Color.white);
+        lettuce.setBorder(BorderFactory.createEmptyBorder());
+        lettuce.setFocusPainted(false);
 
+        onion = new JCheckBox("Onion");
+        onion.setBounds(260, 140, 100, 25);
+        onion.setBackground(Color.white);
+        onion.setBorder(BorderFactory.createEmptyBorder());
+        onion.setFocusPainted(false);
+
+        cheese = new JCheckBox("Cheese");
+        cheese.setBounds(260, 170, 100, 25);
+        cheese.setBackground(Color.white);
+        cheese.setBorder(BorderFactory.createEmptyBorder());
+        cheese.setFocusPainted(false);
+
+        peppers = new JCheckBox("Peppers");
+        peppers.setBounds(260, 200, 100, 25);
+        peppers.setBackground(Color.white);
+        peppers.setBorder(BorderFactory.createEmptyBorder());
+        peppers.setFocusPainted(false);
+
+        upgraded = new JCheckBox("Upgrade to Sandwich Plus");
+        upgraded.setBounds(260, 230, 180, 25);
+        upgraded.setBackground(Color.white);
+        upgraded.setBorder(BorderFactory.createEmptyBorder());
+        upgraded.setFocusPainted(false);
+        upgraded.addActionListener(this);
+
+        bacon = new JCheckBox("Bacon");
+        bacon.setBounds(260, 260, 100, 25);
+        bacon.setBackground(Color.white);
+        bacon.setBorder(BorderFactory.createEmptyBorder());
+        bacon.setFocusPainted(false);
+
+        toy = new JCheckBox("Toy Included");
+        toy.setBounds(260, 290, 100, 25);
+        toy.setBackground(Color.white);
+        toy.setBorder(BorderFactory.createEmptyBorder());
+        toy.setFocusPainted(false);
+        toy.setEnabled(false); //makes it so user can't change if checked
+
+        toasted = new JCheckBox("Toasted");
+        toasted.setBounds(260, 320, 100, 25);
+        toasted.setBackground(Color.white);
+        toasted.setBorder(BorderFactory.createEmptyBorder());
+        toasted.setFocusPainted(false);
+
+        //initialize size drop down menu
+        String[] sizeArr = {"6 inch", "12 inch"};
+        sizes = new JComboBox<>(sizeArr);
+        sizes.setBounds(260, 350, 180, 25);
+        sizes.setBackground(Color.WHITE);
+        sizes.setBorder(BorderFactory.createEmptyBorder());
+
+        //initialize confirm order button
+        confirmOrder = new JButton("Confirm Order");
+        confirmOrder.setBackground(Color.lightGray);
+        confirmOrder.setBounds(25,500, 450, 30);
+        confirmOrder.addActionListener(this);
 
 
         //--------------------------
@@ -492,8 +580,9 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
                 public void actionPerformed(ActionEvent e) {
                     rightScroll.getVerticalScrollBar().setValue(rightScroll.getVerticalScrollBar().getValue()+10);
 
-                    if (rightScroll.getVerticalScrollBar().getValue() == 1000) {
+                    if (rightScroll.getVerticalScrollBar().getValue() >= 1000) {
                         timer.stop();
+                        rightScroll.getVerticalScrollBar().setValue(1000); //in case of surpassing 1000
                     }
                 }
             });
@@ -514,6 +603,25 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         }
         else if (e.getSource() instanceof JButton){
             if (((JButton) e.getSource()).getClientProperty("MenuItem") != null) customizationFrame((JButton) e.getSource());
+        }
+        else if (e.getSource() == upgraded) {
+            bacon.setSelected(upgraded.isSelected());
+            toy.setSelected(upgraded.isSelected());
+            //gray out size drop down
+            if (upgraded.isSelected()) {
+                sizes.setEnabled(false);
+                sizes.addItem("15 inch");
+                sizes.setSelectedItem("15 inch");
+            }
+            else {
+                sizes.setEnabled(true);
+                sizes.removeItem("15 inch");
+                sizes.setSelectedItem("6 inch");
+            }
+        }
+        else if (e.getSource() == confirmOrder) {
+            //CALL WHATEVER METHODS HERE
+            customizationFrame.dispose();
         }
 
     }
@@ -647,9 +755,14 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         return (!(emailEndings.getSelectedItem() == null) && !((String) emailEndings.getSelectedItem()).equalsIgnoreCase("other")) ? (String) emailEndings.getSelectedItem() : "other";
     }
 
+    /**
+     * Responsible for the creation of the ordering window
+     * @param pressedButton the button pressed to call the method, used to determine which values to display
+     */
+
     private void customizationFrame(JButton pressedButton) {
 
-        JFrame customizationFrame = new JFrame();
+        customizationFrame = new JFrame();
         customizationFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         customizationFrame.setUndecorated(true); //turns off window's default window border
         customizationFrame.setLayout(null);
@@ -691,6 +804,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
                 BufferedImage xIcon = ImageIO.read(new File("XIcon.png"));
 
                 //add x icon
+
                 JButton xButton = new JButton();
                 xButton.setIcon(new ImageIcon(xIcon));
                 xButton.setBounds(3, 3, 30, 30);
@@ -721,9 +835,23 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             panel.setBackground(Color.WHITE);
 
             JLabel sandwichIcon = new JLabel();
+            sandwichIcon.setBounds(20, 20, 180, 180);
             JLabel title = new JLabel();
             title.setBounds(260, 20, 250, 50);
             title.setFont(new Font("Arial", Font.PLAIN, 32));
+
+            //add all the checkboxes
+            panel.add(tomato);
+            panel.add(lettuce);
+            panel.add(onion);
+            panel.add(cheese);
+            panel.add(peppers);
+            panel.add(upgraded);
+            panel.add(bacon);
+            panel.add(toy);
+            panel.add(toasted);
+            panel.add(sizes);
+            panel.add(confirmOrder);
 
         //------------------------------------------
 
@@ -731,17 +859,49 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             case MenuItems.ITALIAN_BMT -> {
                 if (italianIMG != null) {
                     sandwichIcon.setIcon(new ImageIcon(italianIMG));
-                    sandwichIcon.setBounds(20, 20, 180, 180);
                 }
                 title.setText("Italian BMT");
 
-
                 panel.add(title);
                 panel.add(sandwichIcon);
-                panel.add(tomato);
+
+                //set checkboxes to default values for this sandwich (false by default so only need to change to true)
+                tomato.setSelected(true);
+                lettuce.setSelected(true);
+
 
                 customizationFrame.add(panel);
                 customizationFrame.setVisible(true);
+            }
+            case MenuItems.TURKEY_BREAST -> {
+                if (turkeyIMG != null) {
+                    sandwichIcon.setIcon(new ImageIcon(turkeyIMG));
+                }
+                title.setText("Turkey Breast");
+
+                panel.add(title);
+                panel.add(sandwichIcon);
+
+                //set checkboxes to default values for this sandwich (false by default so only need to change to true)
+                tomato.setSelected(true);
+                lettuce.setSelected(true);
+                onion.setSelected(true);
+
+
+                customizationFrame.add(panel);
+                customizationFrame.setVisible(true);
+            }
+            case MenuItems.COLD_CUT_COMBO -> {
+
+            }
+            case MenuItems.ROAST_BEEF -> {
+
+            }
+            case MenuItems.STEAK_AND_CHEESE -> {
+
+            }
+            case MenuItems.HAM -> {
+
             }
 
             default -> {
