@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.event.DocumentListener;
@@ -39,7 +40,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     private static Customer selectedCustomer;
 
     //declaring panels and objects (such as labels etc.) that will be used
-    private JPanel customerDataPanel, orderingPanel;
+    private final JPanel customerDataPanel;
 
     //Customer Data Panel components
     private final JTable customerTable, pastOrderTable;
@@ -55,11 +56,11 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     //Components for Order creation area
     private JButton italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham, confirmOrder;
     private BufferedImage italianIMG, turkeyIMG, roastIMG, coldCutIMG, steakIMG, hamIMG;
-    private JCheckBox tomato, lettuce, onion, cheese, peppers, upgraded, bacon, toy, toasted;
+    private final JCheckBox tomato, lettuce, onion, cheese, peppers, upgraded, bacon, toy, toasted;
     private int mouseX, mouseY; //going to be used to track mouse cords for dragging frame
-    private JComboBox<String> sizes;
-    JFrame customizationFrame;
-
+    private final JComboBox<String> sizes;
+    private JFrame customizationFrame;
+    private String sandwichTypeForSave;
 
     /**
      *
@@ -77,8 +78,8 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
-                //Main.writeCustomers(Main.customers);
+                SandwichIO sandwichIO = new SandwichIO();
+                sandwichIO.customerWrite();
                 closeWindow();
             }
         });
@@ -619,11 +620,12 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
                 sizes.setSelectedItem("6 inch");
             }
         }
-        else if (e.getSource() == confirmOrder) {
-            //CALL WHATEVER METHODS HERE
+        if (e.getSource() == confirmOrder) {
+            System.out.println("HERE");
+            createOrder();
             customizationFrame.dispose();
+            changePastOrders();
         }
-
     }
 
     /**
@@ -762,6 +764,8 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
     private void customizationFrame(JButton pressedButton) {
 
+        if (selectedCustomer == null) return; //makes sure there is a customer associated with the order
+
         customizationFrame = new JFrame();
         customizationFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         customizationFrame.setUndecorated(true); //turns off window's default window border
@@ -872,6 +876,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
                 customizationFrame.add(panel);
                 customizationFrame.setVisible(true);
+                sandwichTypeForSave = "Italian BMT";
             }
             case MenuItems.TURKEY_BREAST -> {
                 if (turkeyIMG != null) {
@@ -890,6 +895,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
 
                 customizationFrame.add(panel);
                 customizationFrame.setVisible(true);
+                sandwichTypeForSave = "Turkey Breast";
             }
             case MenuItems.COLD_CUT_COMBO -> {
 
@@ -909,6 +915,69 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
                 customizationFrame.dispose();
             }
 
+        }
+    }
+    private void createOrder() {
+        if (upgraded.isSelected()) {
+            //sandwich plus
+            SandwichPlus sandwichPlus = new SandwichPlus();
+            sandwichPlus.setPrice(12);
+            sandwichPlus.setType(sandwichTypeForSave);
+            //create linked list of toppings
+            LinkedList<String> toppings = new LinkedList<>();
+            if (tomato.isSelected()) {
+                toppings.add("Tomato");
+            }
+            if (lettuce.isSelected()) {
+                toppings.add("Lettuce");
+            }
+            if (onion.isSelected()) {
+                toppings.add("Onion");
+            }
+            if (cheese.isSelected()) {
+                toppings.add("Cheese");
+            }
+            if (peppers.isSelected()) {
+                toppings.add("Peppers");
+            }
+
+            //make new order
+            Order order = new Order();
+            order.addSandwich(sandwichPlus);
+            selectedCustomer.addOrder(order);
+        }
+        else {
+            //normal sandwich
+            Sandwich sandwich = new Sandwich();
+            sandwich.setType(sandwichTypeForSave);
+            sandwich.setHasBacon(bacon.isSelected());
+            sandwich.setToasted(toasted.isSelected());
+            if (Objects.equals(sizes.getSelectedItem(), "6 inch")) {
+                sandwich.setPrice(6);
+            }
+            else if (Objects.equals(sizes.getSelectedItem(), "12 inch")) {
+                sandwich.setPrice(10);
+            }
+            //create linked list of toppings
+            LinkedList<String> toppings = new LinkedList<>();
+            if (tomato.isSelected()) {
+                toppings.add("Tomato");
+            }
+            if (lettuce.isSelected()) {
+                toppings.add("Lettuce");
+            }
+            if (onion.isSelected()) {
+                toppings.add("Onion");
+            }
+            if (cheese.isSelected()) {
+                toppings.add("Cheese");
+            }
+            if (peppers.isSelected()) {
+                toppings.add("Peppers");
+            }
+            Order order = new Order();
+            order.addSandwich(sandwich);
+            selectedCustomer.addOrder(order);
         }
     }
 

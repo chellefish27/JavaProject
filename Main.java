@@ -31,6 +31,9 @@ public class Main {
 		//delete the line of code for next time as it will be automatically saved.
 		//readCustomers(customers);
 
+		SandwichIO sandwichIO = new SandwichIO();
+		//sandwichIO.run();
+
 		ArrayList<Order> pastOrders = new ArrayList<>();
 		ArrayList<Order> pastOrders2 = new ArrayList<>();
 		Sandwich sandwich = new Sandwich();

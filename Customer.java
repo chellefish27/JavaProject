@@ -26,6 +26,9 @@ public class Customer {
     public String customerString() {
         return (name + "," + email);
     }
+    public void addOrder(Order order) {
+        pastOrders.add(order);
+    }
     public ArrayList<Order> getPastOrders() {
         return pastOrders;
     }
