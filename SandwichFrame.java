@@ -19,7 +19,6 @@ import javax.swing.event.DocumentEvent;
 /**
  * Creates graphical user interface for the sandwich tracker using {@link JFrame}
  * @see ActionListener
- * @see TableModelListener
  * @author Owen Reid
  *
  */
@@ -33,7 +32,7 @@ import javax.swing.event.DocumentEvent;
 */
 
 
-public class SandwichFrame extends JFrame implements ActionListener, TableModelListener {
+public class SandwichFrame extends JFrame implements ActionListener {
     //normal variables
     private final int FRAME_WIDTH = 800;
     private final int FRAME_HEIGHT = 800;
@@ -49,7 +48,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     private final JTextField searchEmail;
     private final JComboBox<String> emailEndings;
     private final DefaultTableModel orderModelTable, modelTable;
-    private final JButton customerDataButton = new JButton("Customer Data"), createOrderButton = new JButton("Create Order");
+    private final JButton customerDataButton = new JButton("Customer Data"), createOrderButton = new JButton("Create Order"), addCustomerButton = new JButton("Add Customer");
     private BufferedImage logo, icon;
     private Timer timer;
 
@@ -61,6 +60,10 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
     private final JComboBox<String> sizes;
     private JFrame customizationFrame;
     private String sandwichTypeForSave;
+
+    //components for add customer
+    private JTextField name, email;
+    private JButton createCustomer;
 
     /**
      *
@@ -163,6 +166,45 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             }
         });
         customerDataButton.addActionListener(this);
+
+        //initialize add customer button
+
+        addCustomerButton.setBounds(0, 250, 200, 50);
+        addCustomerButton.setOpaque(false);
+        addCustomerButton.setContentAreaFilled(false);
+        addCustomerButton.setBorderPainted(false);
+        addCustomerButton.setFocusPainted(false);
+        addCustomerButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        addCustomerButton.setForeground(Color.white);
+        addCustomerButton.addMouseListener(new MouseAdapter() {
+
+            /**
+             * Highlights the button when the mouse is hovering over it
+             * @param e the event to be processed
+             */
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                addCustomerButton.setContentAreaFilled(true);
+                addCustomerButton.setOpaque(true);
+                addCustomerButton.setBackground(Color.decode("#65A49C"));
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+
+            /**
+             * Un-highlights the button when the mouse is no longer hovering over it
+             * @param e the event to be processed
+             */
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addCustomerButton.setContentAreaFilled(false);
+                addCustomerButton.setOpaque(false);
+                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+        addCustomerButton.addActionListener(this);
+
 
         //setup order button
         createOrderButton.setBounds(0, 195, 200, 50);
@@ -313,7 +355,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             //for now just works by using string input, will probably change to take in values from order class
             // --> also will be able to get more data when clicked (using order object in first slot)
             pastOrderData[i][0] = savedOrders.get(i);
-            pastOrderData[i][1] = savedOrders.get(i).calcTotal();
+            pastOrderData[i][1] = savedOrders.get(i).getTotal();
             pastOrderData[i][2] = savedOrders.get(i).getDate();
         }
         orderModelTable = new DefaultTableModel(pastOrderData, pastOrderCol) {
@@ -389,11 +431,11 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor(Color.decode("#C2C5BB"));
-                g.fillRect(0, 0, 533, 2500);
+                g.fillRect(0, 0, 533, 4200);
             }
         };
         rightPanel.setLayout(null);
-        rightPanel.setPreferredSize(new Dimension(532, 2500));
+        rightPanel.setPreferredSize(new Dimension(532, 4200));
 
         rightPanel.add(customerScroll);
         rightPanel.add(pastOrderScrollPane);
@@ -527,6 +569,25 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         confirmOrder.setBounds(25,500, 450, 30);
         confirmOrder.addActionListener(this);
 
+        //---- Create area for adding new customers ----
+
+        name = new JTextField();
+        name.setBounds(20, 3100, 200, 30);
+        name.setBorder(BorderFactory.createEmptyBorder());
+
+        email = new JTextField();
+        email.setBounds(300, 3100, 200, 30);
+        email.setBorder(BorderFactory.createEmptyBorder());
+
+        createCustomer = new JButton("Create Customer");
+        createCustomer.setBounds(200, 3300, 200, 50);
+        createCustomer.addActionListener(this);
+
+        //add to rightPanel
+        rightPanel.add(name);
+        rightPanel.add(email);
+        rightPanel.add(createCustomer);
+
 
         //--------------------------
 
@@ -541,6 +602,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         //add Elements to customerDataPanel
         customerDataPanel.add(customerDataButton);
         customerDataPanel.add(createOrderButton);
+        customerDataPanel.add(addCustomerButton);
         customerDataPanel.add(rightScroll);
         if (logoLabel != null) customerDataPanel.add(logoLabel);
 
@@ -551,12 +613,6 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         this.add(customerDataPanel);
         this.setVisible(true);
 
-
-    }
-
-    //Overrides tableChanged method
-    @Override
-    public void tableChanged(TableModelEvent e) {
 
     }
 
@@ -578,9 +634,9 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             timer = new Timer(1, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    rightScroll.getVerticalScrollBar().setValue(rightScroll.getVerticalScrollBar().getValue()+10);
+                    rightScroll.getVerticalScrollBar().setValue(rightScroll.getVerticalScrollBar().getValue()+((rightScroll.getVerticalScrollBar().getValue() < 1000) ? 20 : -20));
 
-                    if (rightScroll.getVerticalScrollBar().getValue() >= 1000) {
+                    if (rightScroll.getVerticalScrollBar().getValue() >= 1000 && Math.abs(rightScroll.getVerticalScrollBar().getValue()-1000) <= 30 ){
                         timer.stop();
                         rightScroll.getVerticalScrollBar().setValue(1000); //in case of surpassing 1000
                     }
@@ -592,7 +648,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             timer = new Timer(1, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    rightScroll.getVerticalScrollBar().setValue(rightScroll.getVerticalScrollBar().getValue()-10);
+                    rightScroll.getVerticalScrollBar().setValue(rightScroll.getVerticalScrollBar().getValue()-20);
 
                     if (rightScroll.getVerticalScrollBar().getValue() == 0) {
                         timer.stop();
@@ -601,8 +657,30 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             });
             timer.start();
         }
-        else if (e.getSource() instanceof JButton){
-            if (((JButton) e.getSource()).getClientProperty("MenuItem") != null) customizationFrame((JButton) e.getSource());
+        else if (e.getSource() == addCustomerButton) {
+            if (rightScroll.getVerticalScrollBar().getValue() == 3000) return;
+            timer = new Timer(1, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    rightScroll.getVerticalScrollBar().setValue(rightScroll.getVerticalScrollBar().getValue()+20);
+
+                    if (rightScroll.getVerticalScrollBar().getValue() >= 3000) {
+                        timer.stop();
+                    }
+                }
+            });
+            timer.start();
+        }
+        else if (e.getSource() == createCustomer) {
+            if (name.getText().isBlank() || email.getText().isBlank()) return;
+            Customer newCustomer = new Customer(name.getText(), email.getText());
+            Main.customers.add(newCustomer);
+            /*
+               Passing in a customer array of size 0 to toArray allows it to convert the arrayList to type customer
+               rather than Object.
+             */
+            updateTable(Main.customers.toArray(new Customer[0]));
+            Main.sandwichIO.addCustomer(newCustomer);
         }
         else if (e.getSource() == upgraded) {
             bacon.setSelected(upgraded.isSelected());
@@ -619,8 +697,10 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
                 sizes.setSelectedItem("6 inch");
             }
         }
+        else if (e.getSource() instanceof JButton){
+            if (((JButton) e.getSource()).getClientProperty("MenuItem") != null) customizationFrame((JButton) e.getSource());
+        }
         if (e.getSource() == confirmOrder) {
-            System.out.println("HERE");
             createOrder();
             customizationFrame.dispose();
             changePastOrders();
@@ -654,7 +734,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
         //replace rows with selected customer past orders
         ArrayList<Order> pastOrders = selectedCustomer.getPastOrders();
         for (int i = 0; i < selectedCustomer.getPastOrders().size(); i++) {
-            orderModelTable.addRow(new Object[] {pastOrders.get(i), pastOrders.get(i).calcTotal(), pastOrders.get(i).getDate()});
+            orderModelTable.addRow(new Object[] {pastOrders.get(i), pastOrders.get(i).getTotal(), pastOrders.get(i).getDate()});
         }
     }
 
@@ -710,7 +790,7 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             for (String s : sandwiches.get(i).getToppings()) {
                 toppings.append(s).append(", ");
             }
-            toppings = new StringBuilder(toppings.substring(0, toppings.length() - 2));
+            if (toppings.length()-2 >= 0) toppings = new StringBuilder(toppings.substring(0, toppings.length() - 2));
 
             JLabel sandwichToppings = new JLabel("Sandwich Toppings: " + toppings);
             sandwichToppings.setBounds(25, 200 + 50*i + 250*i, 450, 30);
@@ -939,10 +1019,13 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             if (peppers.isSelected()) {
                 toppings.add("Peppers");
             }
+            if (!toppings.isEmpty()) sandwichPlus.setToppings(toppings);
 
             //make new order
             Order order = new Order();
             order.addSandwich(sandwichPlus);
+
+            order.calcTotal();
             selectedCustomer.addOrder(order);
         }
         else {
@@ -974,8 +1057,13 @@ public class SandwichFrame extends JFrame implements ActionListener, TableModelL
             if (peppers.isSelected()) {
                 toppings.add("Peppers");
             }
+
+            if (!toppings.isEmpty()) sandwich.setToppings(toppings);
+            //make new order
             Order order = new Order();
             order.addSandwich(sandwich);
+
+            order.calcTotal();
             selectedCustomer.addOrder(order);
         }
     }

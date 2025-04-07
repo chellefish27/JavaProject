@@ -7,6 +7,11 @@ public class Customer {
     private ArrayList<Order> pastOrders = new ArrayList<>();
     private Membership membership;
 
+    public Customer(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public Customer(String name, String email, ArrayList<Order> pastOrders) {
         this.name = name;
         this.email = email;
