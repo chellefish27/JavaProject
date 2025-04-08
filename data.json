@@ -23,7 +23,7 @@
         "drinks": [],
         "promotion": false,
         "total": 10.0,
-        "storeID": 0,
+        "confirmationCode": "nullQFD3067",
         "dateOrdered": "2025-04-06",
         "paidWithPoints": false
       },
@@ -42,7 +42,7 @@
         "drinks": [],
         "promotion": false,
         "total": 12.0,
-        "storeID": 0,
+        "confirmationCode": "nullWYD1243",
         "dateOrdered": "2025-04-07",
         "paidWithPoints": false
       }
@@ -70,7 +70,7 @@
         "drinks": [],
         "promotion": false,
         "total": 12.0,
-        "storeID": 0,
+        "confirmationCode": "nullREL3890",
         "dateOrdered": "2025-04-07",
         "paidWithPoints": false
       },
@@ -110,7 +110,7 @@
         ],
         "promotion": false,
         "total": 20.0,
-        "storeID": 0,
+        "confirmationCode": "nullMQL3012",
         "dateOrdered": "2025-04-07",
         "paidWithPoints": false
       }
@@ -141,7 +141,7 @@
         "drinks": [],
         "promotion": false,
         "total": 6.0,
-        "storeID": 0,
+        "confirmationCode": "nullDEZ0956",
         "dateOrdered": "2025-04-07",
         "paidWithPoints": false
       },
@@ -168,7 +168,7 @@
         ],
         "promotion": false,
         "total": 8.0,
-        "storeID": 0,
+        "confirmationCode": "nullIDA4800",
         "dateOrdered": "2025-04-07",
         "paidWithPoints": false
       }
@@ -209,8 +209,13 @@
         "drinks": [],
         "promotion": false,
         "total": 18.0,
-        "storeID": 0,
+        "confirmationCode": "nullHFY0105",
         "dateOrdered": "2025-04-07",
+        "paidWithPoints": false
+      }
+    ]
+  }
+]"2025-04-07",
         "paidWithPoints": false
       }
     ]

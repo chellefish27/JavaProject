@@ -32,10 +32,11 @@ public class Main {
 		//delete the line of code for next time as it will be automatically saved.
 		//readCustomers(customers);
 
-
 		sandwichIO.run();
 
-		SwingUtilities.invokeLater(SandwichFrame::new);
+		LoginFrame loginFrame = new LoginFrame();
+
+
 
 		// TODO owen, move to terminate button.
 		//writeCustomers(customers); - implemented when closing frame
