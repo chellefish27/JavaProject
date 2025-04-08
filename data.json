@@ -1,326 +1,5 @@
 [
   {
-    "name": "Shaggy",
-    "email": "shaggy@gmail.com",
-    "pastOrders": [
-      {
-        "sandwiches": [
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Funny Guy",
-            "price": 0.0
-          },
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Silly Sandwich",
-            "price": 0.0
-          }
-        ],
-        "drinks": [],
-        "promotion": false,
-        "total": 12.0,
-        "storeID": 0,
-        "dateOrdered": "2025-04-06",
-        "paidWithPoints": false
-      },
-      {
-        "sandwiches": [
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Silly Sandwich",
-            "price": 0.0
-          }
-        ],
-        "drinks": [],
-        "promotion": false,
-        "total": 15.0,
-        "storeID": 0,
-        "dateOrdered": "2025-04-06",
-        "paidWithPoints": false
-      }
-    ]
-  },
-  {
-    "name": "Shaggy",
-    "email": "shaggy@gmail.com",
-    "pastOrders": [
-      {
-        "sandwiches": [
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Funny Guy",
-            "price": 0.0
-          },
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Silly Sandwich",
-            "price": 0.0
-          }
-        ],
-        "drinks": [],
-        "promotion": false,
-        "total": 12.0,
-        "storeID": 0,
-        "dateOrdered": "2025-04-06",
-        "paidWithPoints": false
-      },
-      {
-        "sandwiches": [
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Silly Sandwich",
-            "price": 0.0
-          }
-        ],
-        "drinks": [],
-        "promotion": false,
-        "total": 15.0,
-        "storeID": 0,
-        "dateOrdered": "2025-04-06",
-        "paidWithPoints": false
-      }
-    ]
-  },
-  {
-    "name": "Shaggy",
-    "email": "shaggy@gmail.com",
-    "pastOrders": [
-      {
-        "sandwiches": [
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Funny Guy",
-            "price": 0.0
-          },
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Silly Sandwich",
-            "price": 0.0
-          }
-        ],
-        "drinks": [],
-        "promotion": false,
-        "total": 12.0,
-        "storeID": 0,
-        "dateOrdered": "2025-04-06",
-        "paidWithPoints": false
-      },
-      {
-        "sandwiches": [
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Silly Sandwich",
-            "price": 0.0
-          }
-        ],
-        "drinks": [],
-        "promotion": false,
-        "total": 15.0,
-        "storeID": 0,
-        "dateOrdered": "2025-04-06",
-        "paidWithPoints": false
-      }
-    ]
-  },
-  {
-    "name": "Shaggy",
-    "email": "shaggy@gmail.com",
-    "pastOrders": [
-      {
-        "sandwiches": [
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Funny Guy",
-            "price": 0.0
-          },
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Silly Sandwich",
-            "price": 0.0
-          }
-        ],
-        "drinks": [],
-        "promotion": false,
-        "total": 12.0,
-        "storeID": 0,
-        "dateOrdered": "2025-04-06",
-        "paidWithPoints": false
-      },
-      {
-        "sandwiches": [
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Silly Sandwich",
-            "price": 0.0
-          }
-        ],
-        "drinks": [],
-        "promotion": false,
-        "total": 15.0,
-        "storeID": 0,
-        "dateOrdered": "2025-04-06",
-        "paidWithPoints": false
-      }
-    ]
-  },
-  {
-    "name": "Timothy",
-    "email": "Timothy@gmail.com",
-    "pastOrders": [
-      {
-        "sandwiches": [
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Funny Guy",
-            "price": 0.0
-          },
-          {
-            "size": 0,
-            "toppings": [
-              "Tomato",
-              "Lettuce",
-              "Garlic"
-            ],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Silly Sandwich",
-            "price": 0.0
-          }
-        ],
-        "drinks": [],
-        "promotion": false,
-        "total": 12.0,
-        "storeID": 0,
-        "dateOrdered": "2025-04-06",
-        "paidWithPoints": false
-      },
-      {
-        "sandwiches": [
-          {
-            "size": 0,
-            "toppings": [],
-            "hasBacon": false,
-            "toasted": false,
-            "toy": "No toy ordered",
-            "type": "Italian BMT",
-            "price": 6.0
-          }
-        ],
-        "drinks": [],
-        "promotion": false,
-        "total": 138.0,
-        "storeID": 0,
-        "dateOrdered": "2025-04-06",
-        "paidWithPoints": false
-      }
-    ]
-  },
-  {
     "name": "Joaquin",
     "email": "johncourt@outlook.com",
     "pastOrders": [
@@ -346,6 +25,192 @@
         "total": 10.0,
         "storeID": 0,
         "dateOrdered": "2025-04-06",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 15,
+            "toppings": [],
+            "hasBacon": true,
+            "toasted": true,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 12.0
+          }
+        ],
+        "drinks": [],
+        "promotion": false,
+        "total": 12.0,
+        "storeID": 0,
+        "dateOrdered": "2025-04-07",
+        "paidWithPoints": false
+      }
+    ]
+  },
+  {
+    "name": "Owen",
+    "email": "owenR@outlook.com",
+    "pastOrders": [
+      {
+        "sandwiches": [
+          {
+            "size": 15,
+            "toppings": [
+              "Tomato",
+              "Lettuce"
+            ],
+            "hasBacon": true,
+            "toasted": true,
+            "toy": "No toy ordered",
+            "type": "Turkey Breast",
+            "price": 12.0
+          }
+        ],
+        "drinks": [],
+        "promotion": false,
+        "total": 12.0,
+        "storeID": 0,
+        "dateOrdered": "2025-04-07",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 6,
+            "toppings": [
+              "Tomato",
+              "Lettuce"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 6.0
+          },
+          {
+            "size": 15,
+            "toppings": [
+              "Tomato",
+              "Lettuce",
+              "Onion"
+            ],
+            "hasBacon": true,
+            "toasted": true,
+            "toy": "No toy ordered",
+            "type": "Roast Beef",
+            "price": 12.0
+          }
+        ],
+        "drinks": [
+          {
+            "type": "Pepsi",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 20.0,
+        "storeID": 0,
+        "dateOrdered": "2025-04-07",
+        "paidWithPoints": false
+      }
+    ]
+  },
+  {
+    "name": "Benjamin",
+    "email": "123@yahoo.com",
+    "pastOrders": [
+      {
+        "sandwiches": [
+          {
+            "size": 0,
+            "toppings": [
+              "Tomato",
+              "Lettuce",
+              "Onion",
+              "Cheese",
+              "Peppers"
+            ],
+            "hasBacon": true,
+            "toasted": true,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 6.0
+          }
+        ],
+        "drinks": [],
+        "promotion": false,
+        "total": 6.0,
+        "storeID": 0,
+        "dateOrdered": "2025-04-07",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 6,
+            "toppings": [
+              "Tomato",
+              "Lettuce"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 6.0
+          }
+        ],
+        "drinks": [
+          {
+            "type": "Coke",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 8.0,
+        "storeID": 0,
+        "dateOrdered": "2025-04-07",
+        "paidWithPoints": false
+      }
+    ]
+  },
+  {
+    "name": "Braeden",
+    "email": "bp@gmail.com",
+    "pastOrders": [
+      {
+        "sandwiches": [
+          {
+            "size": 15,
+            "toppings": [
+              "Tomato",
+              "Onion",
+              "Cheese"
+            ],
+            "hasBacon": true,
+            "toasted": true,
+            "toy": "No toy ordered",
+            "type": "Steak and Cheese",
+            "price": 12.0
+          },
+          {
+            "size": 6,
+            "toppings": [
+              "Tomato",
+              "Lettuce"
+            ],
+            "hasBacon": true,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 6.0
+          }
+        ],
+        "drinks": [],
+        "promotion": false,
+        "total": 18.0,
+        "storeID": 0,
+        "dateOrdered": "2025-04-07",
         "paidWithPoints": false
       }
     ]

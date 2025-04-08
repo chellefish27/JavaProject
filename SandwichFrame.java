@@ -1,14 +1,12 @@
 import javax.imageio.ImageIO;
+import javax.management.remote.rmi.RMIConnectionImpl;
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +27,9 @@ import javax.swing.event.DocumentEvent;
     This Class creates the graphical interface for the "Sandwich Tracker" using the javax swing library
     It extends JFrame which allows itself to be referenced as the frame. For ease of creation many different
     parts will be put onto JPanels which will then be placed on to the frame as needed.
+
+    TODO For future, use inheritance on things like buttons that have repetitive traits to clean up code (not huge difference but is good to do)
+
 */
 
 
@@ -37,6 +38,8 @@ public class SandwichFrame extends JFrame implements ActionListener {
     private final int FRAME_WIDTH = 800;
     private final int FRAME_HEIGHT = 800;
     private static Customer selectedCustomer;
+    private static ArrayList<Sandwich> currSandwiches = new ArrayList<>();
+    private static ArrayList<Drink> currDrinks = new ArrayList<>();
 
     //declaring panels and objects (such as labels etc.) that will be used
     private final JPanel customerDataPanel;
@@ -53,17 +56,18 @@ public class SandwichFrame extends JFrame implements ActionListener {
     private Timer timer;
 
     //Components for Order creation area
-    private JButton italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham, confirmOrder;
-    private BufferedImage italianIMG, turkeyIMG, roastIMG, coldCutIMG, steakIMG, hamIMG;
-    private final JCheckBox tomato, lettuce, onion, cheese, peppers, upgraded, bacon, toy, toasted;
+    private JButton italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham, confirmSandwich, confirmDrink, confirmOrder, pepsiButton;
+    private BufferedImage italianIMG, turkeyIMG, roastIMG, coldCutIMG, steakIMG, hamIMG, pepsiIMG;
+    private  JCheckBox tomato, lettuce, onion, cheese, peppers, upgraded, bacon, toy, toasted, pepsi, coke, sevenUp, drPepper, sprite;
     private int mouseX, mouseY; //going to be used to track mouse cords for dragging frame
     private final JComboBox<String> sizes;
-    private JFrame customizationFrame;
+    private JFrame customizationFrame, drinkFrame;
     private String sandwichTypeForSave;
 
     //components for add customer
     private JTextField name, email;
     private JButton createCustomer;
+    private JLabel nameLabel, emailLabel;
 
     /**
      *
@@ -291,6 +295,12 @@ public class SandwichFrame extends JFrame implements ActionListener {
                 Customer customer = (Customer) customerTable.getValueAt(row, 0);
                 String email = (String) customerTable.getValueAt(row, 1);
 
+                //refreshes current order if customer is changed
+                if (selectedCustomer != null && !selectedCustomer.equals(customer)) {
+                    currSandwiches = new ArrayList<>();
+                    currDrinks = new ArrayList<>();
+                }
+
                 selectedCustomer = customer;
                 changePastOrders();
             }
@@ -444,7 +454,18 @@ public class SandwichFrame extends JFrame implements ActionListener {
         rightPanel.add(searchEmail);
         rightPanel.add(emailEndings);
 
-        //add elements for order area
+        //---- add elements for order area ----
+
+        //initialize confirm order button
+        confirmOrder = new JButton("Confirm Order");
+        confirmOrder.setBackground(Color.WHITE);
+        confirmOrder.setBounds(40,1700, 445, 30);
+        confirmOrder.setBorder(BorderFactory.createEmptyBorder());
+        confirmOrder.setFocusPainted(false);
+        confirmOrder.addActionListener(this);
+
+        //---- Initialize sandwich buttons ----
+
         //italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham
 
         try {
@@ -489,10 +510,72 @@ public class SandwichFrame extends JFrame implements ActionListener {
             turkeyBreast.addActionListener(this);
             turkeyBreast.putClientProperty("MenuItem", MenuItems.TURKEY_BREAST);
 
+            //initialize Roast Beef
+            roastBeef = new JButton();
+            roastIMG = ImageIO.read(new File("RoastBeefSandwich.png"));
+            roastBeef.setIcon(new ImageIcon(roastIMG));
+            roastBeef.setBounds(40, 1235, 180, 180);
+            roastBeef.setBorder(BorderFactory.createEmptyBorder());
+            roastBeef.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            });
+            roastBeef.addActionListener(this);
+            roastBeef.putClientProperty("MenuItem", MenuItems.ROAST_BEEF);
+
+            //initialize Pepsi
+            pepsiButton = new JButton();
+            pepsiIMG = ImageIO.read(new File("PepsiCanCool.png"));
+            pepsiButton.setIcon(new ImageIcon(pepsiIMG));
+            pepsiButton.setBounds(40, 1450, 180, 180);
+            pepsiButton.setBorder(BorderFactory.createEmptyBorder());
+            pepsiButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            });
+            pepsiButton.addActionListener(this);
+
+            //initialize Steak and Cheese
+            steakAndCheese = new JButton();
+            steakIMG = ImageIO.read(new File("SteakAndCheeseSandwich.png"));
+            steakAndCheese.setIcon(new ImageIcon(steakIMG));
+            steakAndCheese.setBounds(300, 1235, 180, 180);
+            steakAndCheese.setBorder(BorderFactory.createEmptyBorder());
+            steakAndCheese.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            });
+            steakAndCheese.addActionListener(this);
+            steakAndCheese.putClientProperty("MenuItem", MenuItems.STEAK_AND_CHEESE);
+
 
             //add right in the try catch so nothing breaks if exception is thrown
             rightPanel.add(turkeyBreast);
             rightPanel.add(italianBMT);
+            rightPanel.add(roastBeef);
+            rightPanel.add(steakAndCheese);
+            rightPanel.add(pepsiButton);
         }
         catch (Exception IOE) {
             System.err.println("Error loading image files");
@@ -563,30 +646,47 @@ public class SandwichFrame extends JFrame implements ActionListener {
         sizes.setBackground(Color.WHITE);
         sizes.setBorder(BorderFactory.createEmptyBorder());
 
-        //initialize confirm order button
-        confirmOrder = new JButton("Confirm Order");
-        confirmOrder.setBackground(Color.lightGray);
-        confirmOrder.setBounds(25,500, 450, 30);
-        confirmOrder.addActionListener(this);
+        //initialize confirm sandwich button
+        confirmSandwich = new JButton("Confirm Sandwich");
+        confirmSandwich.setBackground(Color.lightGray);
+        confirmSandwich.setBounds(25,500, 450, 30);
+        confirmSandwich.addActionListener(this);
+
+        //initialize confirm drinks button
+        confirmDrink = new JButton("Confirm Drinks");
+        confirmDrink.setBackground(Color.lightGray);
+        confirmDrink.setBounds(25,260, 150, 30);
+        confirmDrink.addActionListener(this);
+
 
         //---- Create area for adding new customers ----
 
         name = new JTextField();
-        name.setBounds(20, 3100, 200, 30);
+        name.setBounds(150, 3050, 300, 30);
         name.setBorder(BorderFactory.createEmptyBorder());
 
         email = new JTextField();
-        email.setBounds(300, 3100, 200, 30);
+        email.setBounds(150, 3100, 300, 30);
         email.setBorder(BorderFactory.createEmptyBorder());
 
         createCustomer = new JButton("Create Customer");
-        createCustomer.setBounds(200, 3300, 200, 50);
+        createCustomer.setBounds(150, 3300, 200, 50);
+        createCustomer.setBackground(Color.WHITE);
         createCustomer.addActionListener(this);
+
+        nameLabel = new JLabel("Customer Name: ");
+        nameLabel.setBounds(20, 3050, 300, 30);
+
+        emailLabel = new JLabel("Customer Email: ");
+        emailLabel.setBounds(20, 3100, 300, 30);
 
         //add to rightPanel
         rightPanel.add(name);
         rightPanel.add(email);
         rightPanel.add(createCustomer);
+        rightPanel.add(nameLabel);
+        rightPanel.add(emailLabel);
+        rightPanel.add(confirmOrder);
 
 
         //--------------------------
@@ -681,6 +781,8 @@ public class SandwichFrame extends JFrame implements ActionListener {
              */
             updateTable(Main.customers.toArray(new Customer[0]));
             Main.sandwichIO.addCustomer(newCustomer);
+            name.setText("");
+            email.setText("");
         }
         else if (e.getSource() == upgraded) {
             bacon.setSelected(upgraded.isSelected());
@@ -697,13 +799,23 @@ public class SandwichFrame extends JFrame implements ActionListener {
                 sizes.setSelectedItem("6 inch");
             }
         }
+        else if (e.getSource() == confirmSandwich) {
+            //adds sandwich to currOrder
+            addSandwich();
+            customizationFrame.dispose();
+        }
+        else if (e.getSource() == confirmDrink) {
+            addDrink();
+            drinkFrame.dispose();
+        }
+        else if (e.getSource() == confirmOrder) {
+            createOrder();
+        }
+        else if (e.getSource() == pepsiButton) {
+            createDrinkFrame();
+        }
         else if (e.getSource() instanceof JButton){
             if (((JButton) e.getSource()).getClientProperty("MenuItem") != null) customizationFrame((JButton) e.getSource());
-        }
-        if (e.getSource() == confirmOrder) {
-            createOrder();
-            customizationFrame.dispose();
-            changePastOrders();
         }
     }
 
@@ -755,7 +867,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         //create a new JPanel to be added to the Scroll Pane
         JPanel newSummaryPanel = new JPanel();
         newSummaryPanel.setLayout(null);
-        newSummaryPanel.setPreferredSize(new Dimension(450, 300*sandwiches.size() + 200*drinks.size()));
+        newSummaryPanel.setPreferredSize(new Dimension(450, 300*sandwiches.size() + 30*drinks.size()));
 
 
         //create and add all the sandwich labels (data) to the JPanel
@@ -802,6 +914,16 @@ public class SandwichFrame extends JFrame implements ActionListener {
             toyIncluded.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(toyIncluded);
 
+            StringBuilder drinksOrdered = new StringBuilder();
+            for (Drink d : drinks) {
+                drinksOrdered.append(d.getType()).append(", ");
+            }
+            if (drinksOrdered.length() >= 2) drinksOrdered = new StringBuilder(drinksOrdered.substring(0, drinksOrdered.length()-2));
+            JLabel drinkLabel = new JLabel("Drinks Ordered: " + drinksOrdered);
+            drinkLabel.setBounds(25, 300 + 50*i, 450, 30);
+            drinkLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+            newSummaryPanel.add(drinkLabel);
+
         }
         orderSummaryScrollPane.getViewport().removeAll();
         orderSummaryScrollPane.getViewport().add(newSummaryPanel);
@@ -844,6 +966,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
     private void customizationFrame(JButton pressedButton) {
 
         if (selectedCustomer == null) return; //makes sure there is a customer associated with the order
+
+        if (customizationFrame != null) customizationFrame.dispose();
+
+        clearToppings();
 
         customizationFrame = new JFrame();
         customizationFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -934,7 +1060,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             panel.add(toy);
             panel.add(toasted);
             panel.add(sizes);
-            panel.add(confirmOrder);
+            panel.add(confirmSandwich);
 
         //------------------------------------------
 
@@ -980,13 +1106,44 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
             }
             case MenuItems.ROAST_BEEF -> {
+                if (roastIMG != null) {
+                    sandwichIcon.setIcon(new ImageIcon(roastIMG));
+                }
+                title.setText("Roast Beef");
 
+                panel.add(title);
+                panel.add(sandwichIcon);
+
+                //set checkboxes to default values for this sandwich (false by default so only need to change to true)
+                tomato.setSelected(true);
+                lettuce.setSelected(true);
+                onion.setSelected(true);
+
+
+                customizationFrame.add(panel);
+                customizationFrame.setVisible(true);
+                sandwichTypeForSave = "Roast Beef";
             }
             case MenuItems.STEAK_AND_CHEESE -> {
+                if (steakIMG != null) {
+                    sandwichIcon.setIcon(new ImageIcon(steakIMG));
+                }
+                title.setText("Steak and Cheese");
 
+                panel.add(title);
+                panel.add(sandwichIcon);
+
+                //set checkboxes to default values for this sandwich (false by default so only need to change to true)
+                cheese.setSelected(true);
+                bacon.setSelected(true);
+
+
+                customizationFrame.add(panel);
+                customizationFrame.setVisible(true);
+                sandwichTypeForSave = "Steak and Cheese";
             }
             case MenuItems.HAM -> {
-
+                //f
             }
 
             default -> {
@@ -996,7 +1153,134 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
         }
     }
+
+    private void createDrinkFrame() {
+        drinkFrame = new JFrame();
+        drinkFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        drinkFrame.setUndecorated(true); //turns off window's default window border
+        drinkFrame.setLayout(null);
+        drinkFrame.setResizable(false);
+        drinkFrame.setLocation(this.getLocation());
+        drinkFrame.setSize(200, 300);
+        drinkFrame.setTitle("Customize Sandwich");
+        drinkFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                drinkFrame.dispose();
+            }
+        });
+
+        JPanel decoration = new JPanel();
+        decoration.setLayout(null);
+        decoration.setBounds(0, 0, drinkFrame.getWidth(), 30);
+        decoration.setBackground(Color.WHITE);
+        decoration.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseX = e.getX();
+                mouseY = e.getY();
+
+            }
+        });
+        decoration.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                drinkFrame.setLocation(e.getXOnScreen()-mouseX, e.getYOnScreen()-mouseY);
+            }
+        });
+
+        //---- Initialize X Icon ----
+        try {
+            BufferedImage xIcon = ImageIO.read(new File("XIcon.png"));
+
+            //add x icon
+
+            JButton xButton = new JButton();
+            xButton.setIcon(new ImageIcon(xIcon));
+            xButton.setBounds(3, 3, 30, 30);
+            xButton.setFocusPainted(false);
+            xButton.setBackground(Color.WHITE);
+            xButton.setBorder(BorderFactory.createEmptyBorder());
+            xButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    drinkFrame.dispose();
+                }
+            });
+            decoration.add(xButton);
+        }
+        catch (IOException e) {
+            System.out.println("Error loading ordering menu - X Icon not found");
+        }
+
+        drinkFrame.add(decoration, BorderLayout.NORTH);
+
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setBounds(0, 0, drinkFrame.getWidth(), drinkFrame.getHeight());
+        panel.setLayout(null);
+
+        pepsi = new JCheckBox("Pepsi");
+        pepsi.setSelected(false);
+        pepsi.setBounds(100, 40, 100, 25);
+        pepsi.setBackground(Color.WHITE);
+        pepsi.setBorder(BorderFactory.createEmptyBorder());
+        pepsi.setFocusPainted(false);
+
+        coke = new JCheckBox("Coke");
+        coke.setSelected(false);
+        coke.setBounds(100, 70, 100, 25);
+        coke.setBackground(Color.WHITE);
+        coke.setBorder(BorderFactory.createEmptyBorder());
+        coke.setFocusPainted(false);
+
+        sevenUp = new JCheckBox("7-Up");
+        sevenUp.setSelected(false);
+        sevenUp.setBounds(100, 100, 100, 25);
+        sevenUp.setBackground(Color.WHITE);
+        sevenUp.setBorder(BorderFactory.createEmptyBorder());
+        sevenUp.setFocusPainted(false);
+
+        drPepper = new JCheckBox("Dr.Pepper");
+        drPepper.setSelected(false);
+        drPepper.setBounds(100, 130 ,100, 25);
+        drPepper.setBackground(Color.WHITE);
+        drPepper.setBorder(BorderFactory.createEmptyBorder());
+        drPepper.setFocusPainted(false);
+
+        sprite = new JCheckBox("Sprite");
+        sprite.setSelected(false);
+        sprite.setBounds(100, 160 ,100, 25);
+        sprite.setBackground(Color.WHITE);
+        sprite.setBorder(BorderFactory.createEmptyBorder());
+        sprite.setFocusPainted(false);
+
+        panel.add(pepsi);
+        panel.add(coke);
+        panel.add(sevenUp);
+        panel.add(drPepper);
+        panel.add(sprite);
+        panel.add(confirmDrink);
+
+        drinkFrame.add(panel);
+        drinkFrame.setVisible(true);
+    }
+
     private void createOrder() {
+        if (selectedCustomer == null || (currSandwiches.isEmpty() && currDrinks.isEmpty())) return;
+        Order order = new Order();
+
+        for (Sandwich sandwich : currSandwiches) {
+            order.addSandwich(sandwich);
+        }
+        for (Drink drink : currDrinks) {
+            order.addDrink(drink);
+        }
+        order.calcTotal();
+        selectedCustomer.addOrder(order);
+        changePastOrders();
+    }
+    private void addSandwich() {
         if (upgraded.isSelected()) {
             //sandwich plus
             SandwichPlus sandwichPlus = new SandwichPlus();
@@ -1021,12 +1305,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             }
             if (!toppings.isEmpty()) sandwichPlus.setToppings(toppings);
 
-            //make new order
-            Order order = new Order();
-            order.addSandwich(sandwichPlus);
-
-            order.calcTotal();
-            selectedCustomer.addOrder(order);
+            currSandwiches.add(sandwichPlus);
         }
         else {
             //normal sandwich
@@ -1036,9 +1315,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
             sandwich.setToasted(toasted.isSelected());
             if (Objects.equals(sizes.getSelectedItem(), "6 inch")) {
                 sandwich.setPrice(6);
-            }
-            else if (Objects.equals(sizes.getSelectedItem(), "12 inch")) {
+                sandwich.setSize((byte) 6);
+            } else if (Objects.equals(sizes.getSelectedItem(), "12 inch")) {
                 sandwich.setPrice(10);
+                sandwich.setSize((byte) 12);
             }
             //create linked list of toppings
             LinkedList<String> toppings = new LinkedList<>();
@@ -1059,13 +1339,55 @@ public class SandwichFrame extends JFrame implements ActionListener {
             }
 
             if (!toppings.isEmpty()) sandwich.setToppings(toppings);
-            //make new order
-            Order order = new Order();
-            order.addSandwich(sandwich);
 
-            order.calcTotal();
-            selectedCustomer.addOrder(order);
+            currSandwiches.add(sandwich);
         }
+    }
+
+    private void addDrink() {
+        if (pepsi.isSelected()) {
+            Drink drink = new Drink();
+            drink.setType("Pepsi");
+            drink.setPrice(2);
+            currDrinks.add(drink);
+        }
+        else if (coke.isSelected()) {
+            Drink drink = new Drink();
+            drink.setType("Coke");
+            drink.setPrice(2);
+            currDrinks.add(drink);
+        }
+        else if (sevenUp.isSelected()) {
+            Drink drink = new Drink();
+            drink.setType("7-Up");
+            drink.setPrice(2);
+            currDrinks.add(drink);
+        }
+        else if (drPepper.isSelected()) {
+            Drink drink = new Drink();
+            drink.setType("Dr.Pepper");
+            drink.setPrice(2);
+            currDrinks.add(drink);
+        }
+        else if (sprite.isSelected()) {
+            Drink drink = new Drink();
+            drink.setType("Sprite");
+            drink.setPrice(2);
+            currDrinks.add(drink);
+        }
+    }
+
+    private void clearToppings() {
+        if (tomato == null) return; //just checking the first one declared (if this exists the others will too)
+        tomato.setSelected(false);
+        lettuce.setSelected(false);
+        onion.setSelected(false);
+        cheese.setSelected(false);
+        peppers.setSelected(false);
+        upgraded.setSelected(false);
+        toy.setSelected(false);
+        bacon.setSelected(false);
+        toasted.setSelected(false);
     }
 
 }
