@@ -4,9 +4,17 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Base64;
 
+/**
+ * Uses JFrame to create a login window
+ * @author Owen Reid
+ * @see JFrame
+ * @see ActionListener
+ *
+ */
+
 public class LoginFrame extends JFrame implements ActionListener {
     private String username;
-    private transient String password;
+    private transient String password; //transient so Java doesn't serialize
     private String encryptedPassword;
     private byte[] passwordBytes;
     private String storeID;
@@ -19,6 +27,9 @@ public class LoginFrame extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Creates the login Frame
+     */
     public LoginFrame () {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(300, 350);
@@ -49,6 +60,11 @@ public class LoginFrame extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
+    /**
+     * Activates when the button is pressed
+     * @param e the event to be processed
+     */
+
     @Override
     public void actionPerformed(ActionEvent e) {
         char[] enteredPass = passwordField.getPassword();
@@ -62,6 +78,11 @@ public class LoginFrame extends JFrame implements ActionListener {
             System.out.println(passToCompare + " " + password);
         }
     }
+
+    /**
+     * Encodes the password before saving it to the text file
+     * @param password the password to be encoded
+     */
 
     public void encodePassword(String password) {
         this.password = password;
@@ -77,6 +98,10 @@ public class LoginFrame extends JFrame implements ActionListener {
             System.err.println("ERROR WRITING FILE");
         }
     }
+
+    /**
+     * decodes the password so it can be compared with the inputted password
+     */
     private void decodePassword() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("loginInfo.txt"));

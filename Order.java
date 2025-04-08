@@ -209,7 +209,7 @@ public class Order {
 
   /**
    *
-   * @param storeID String ID of the store
+   * @param ID String ID of the store
    */
   public static void setStoreID(String ID) {
     storeID = ID;

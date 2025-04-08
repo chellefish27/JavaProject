@@ -1153,6 +1153,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * creates the drink ordering panel
+     */
+
     private void createDrinkFrame() {
         drinkFrame = new JFrame();
         drinkFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -1265,6 +1269,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
         drinkFrame.setVisible(true);
     }
 
+    /**
+     * takes all the sandwiches and drinks and creates and order then adds it to the selected customers past orders
+     */
+
     private void createOrder() {
         if (selectedCustomer == null || (currSandwiches.isEmpty() && currDrinks.isEmpty())) return;
         Order order = new Order();
@@ -1279,6 +1287,11 @@ public class SandwichFrame extends JFrame implements ActionListener {
         selectedCustomer.addOrder(order);
         changePastOrders();
     }
+
+    /**
+     * adds all the ordered sandwiches to the sandwiches array
+     */
+
     private void addSandwich() {
         if (upgraded.isSelected()) {
             //sandwich plus
@@ -1343,6 +1356,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * adds drink Object to arraylist (all that were checked)
+     */
+
     private void addDrink() {
         if (pepsi.isSelected()) {
             Drink drink = new Drink();
@@ -1375,6 +1392,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
             currDrinks.add(drink);
         }
     }
+
+    /**
+     * Resets the topping checkboxes to false
+     */
 
     private void clearToppings() {
         if (tomato == null) return; //just checking the first one declared (if this exists the others will too)

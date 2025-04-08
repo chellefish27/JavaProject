@@ -34,7 +34,7 @@ public class Main {
 
 		sandwichIO.run();
 
-		LoginFrame loginFrame = new LoginFrame();
+		LoginFrame loginFrame = new LoginFrame(); //make silly little login frame
 
 
 
