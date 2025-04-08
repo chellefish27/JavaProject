@@ -13,16 +13,19 @@ public class Order {
   private double total;
   private String paymentMethod;
   private String confirmationCode;
-  private long storeID;
+  private static String storeID;
   private final String dateOrdered;
   private boolean paidWithPoints;
 
   public Order() {
-    // implement randomized IDs later
-    // this.storeID
-
+    // randomly generated confirmation code for demonstration purposes
+    for (int i = 0; i < 3; ++i) {
+      confirmationCode += (char)(Math.random() * (90-65+1) + 65);
+    }
+    for (int i = 0; i < 4; ++i) {
+      confirmationCode += (int)(Math.random() * (9+1));
+    }
     dateOrdered = LocalDate.now().toString();
-
   }
 
   /*
@@ -63,6 +66,16 @@ public class Order {
     }
 
     return total;
+  }
+
+  /**
+   * update points in the membership of the customer
+   * @param membership Membership object to update points
+   */
+  public void updatePoints(Membership membership) {
+    membership.addPoints(getSandwiches().size(), getDrinks().size());
+
+
   }
 
   /*
@@ -112,14 +125,14 @@ public class Order {
   }
 
   /**
-   * @return long
+   * @return String
    */
-  public long getStoreID() {
+  public String getStoreID() {
     return storeID;
   }
 
   /**
-   * @return LocalDate from java.time.LocalDate
+   * @return String of LocalDate from java.time.LocalDate
    */
   public String getDate() {
     return dateOrdered;
@@ -195,14 +208,25 @@ public class Order {
   }
 
   /**
-   * @param paidWithPoints set whether the order was paid with points on the customer's membership card
+   *
+   * @param storeID String ID of the store
    */
-  public void setPaidWithPoints(Membership membership, boolean paidWithPoints) {
-    if (membership.getPoints() >= total) {
+  public void setStoreID(String storeID) {
+    this.storeID = storeID;
+  }
+
+  /**
+   * @param paidWithPoints set whether the order was paid with points on the customer's membership card and update the points
+   */
+  public boolean setPaidWithPoints(Membership membership, boolean paidWithPoints) {
+    if (membership.getPoints() >= getTotal()) {
       this.paidWithPoints = paidWithPoints;
+      membership.subtractPoints(getTotal());
+      return true;
     }
     else {
       System.err.println("Not enough points");
+      return false;
     }
   }
 

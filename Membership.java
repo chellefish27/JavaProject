@@ -1,19 +1,28 @@
 import java.util.LinkedList;
 
 public class Membership {
-    private int points;
+    private double points;
 
     /*
     ---------------> Methods <---------------
     */
 
-    public void updatePoints(Order order) {
-        points += (3 * order.getSandwiches().size());
-        points += (1 * order.getDrinks().size());
-        if (order.getPaidWithPoints()) {
-            points -= order.getTotal();
-        }
+    /**
+     * subtract points in the membership of the customer if they paid using them
+     * @param cost [double]
+     */
+    public void subtractPoints(double cost) {
+        points -= cost;
 
+    }
+
+    /**
+     * @param sandwichAmount size of sandwiches array
+     * @param drinkAmount size of drinks array
+     */
+    public void addPoints(int sandwichAmount, int drinkAmount) {
+        points += 1 * sandwichAmount;
+        points += 0.5 * drinkAmount;
     }
 
     /*
@@ -22,9 +31,9 @@ public class Membership {
 
     /**
      *
-     * @return int
+     * @return double
      */
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 }
