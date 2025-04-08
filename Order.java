@@ -14,14 +14,15 @@ public class Order {
   private String paymentMethod;
   private String confirmationCode;
   private long storeID;
-  private final LocalDate dateOrdered;
+  private final String dateOrdered;
   private boolean paidWithPoints;
 
   public Order() {
     // implement randomized IDs later
     // this.storeID
 
-    dateOrdered = LocalDate.now();
+    dateOrdered = LocalDate.now().toString();
+
   }
 
   /*
@@ -120,7 +121,7 @@ public class Order {
   /**
    * @return LocalDate from java.time.LocalDate
    */
-  public LocalDate getDate() {
+  public String getDate() {
     return dateOrdered;
   }
 

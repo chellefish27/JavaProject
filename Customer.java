@@ -7,6 +7,11 @@ public class Customer {
     private ArrayList<Order> pastOrders = new ArrayList<>();
     private Membership membership;
 
+    public Customer(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public Customer(String name, String email, ArrayList<Order> pastOrders) {
         this.name = name;
         this.email = email;
@@ -25,6 +30,9 @@ public class Customer {
     }
     public String customerString() {
         return (name + "," + email);
+    }
+    public void addOrder(Order order) {
+        pastOrders.add(order);
     }
     public ArrayList<Order> getPastOrders() {
         return pastOrders;

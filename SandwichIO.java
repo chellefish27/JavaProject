@@ -4,6 +4,8 @@
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.Strictness;
+import com.google.gson.stream.JsonReader;
 
 import java.io.FileReader;
 import java.nio.ByteBuffer;
@@ -20,15 +22,17 @@ public class SandwichIO extends Thread {
     public void run() {
         try {
             // open the file for reading
-            FileReader fr = new FileReader("data.json");
-
+            JsonReader fr = new JsonReader(new FileReader("data.json"));
+            fr.setStrictness(Strictness.LENIENT);
             // read the json into an array of Customer
             Customer[] customerArray = formattedGson.fromJson(fr, Customer[].class);
 
             // transfer the array to a linkedlist
             for(Customer customer : customerArray) {
                 customers.addLast(customer);
+                Main.customers.add(customer);
             }
+
         }
         catch (Exception e) {
             e.printStackTrace();
