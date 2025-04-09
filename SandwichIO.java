@@ -1,4 +1,5 @@
 /**
+ * a class for the IO to a Json file of all customer data
  * @author Joaquin
  */
 
@@ -41,6 +42,7 @@ public class SandwichIO extends Thread {
 
 
     /**
+     * add customer to the list of customers
      * @param customer [Customer]
      */
     public void addCustomer(Customer customer) {
@@ -79,7 +81,8 @@ public class SandwichIO extends Thread {
     }
 
     /**
-     *
+     * get the list of customers
+     * for debug purposes
      * @return LinkedList<Customer>
      */
     public LinkedList<Customer> getCustomerList() {

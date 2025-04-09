@@ -1,4 +1,5 @@
 /**
+ * a class to hold necessary Sandwich data
  * @author Joaquin
  * @see Item
  */
@@ -19,7 +20,7 @@ public class Sandwich extends Item {
    */
 
   /**
-   *
+   * adds a topping to the list of toppings
    * @param topping topping to be added to list [String]
    * @return offerLast() returns boolean if successful in adding or not
    */
@@ -33,6 +34,7 @@ public class Sandwich extends Item {
    */
 
   /**
+   * get the size of sandwich
    * @return byte
    */
   public byte getSize() {
@@ -40,7 +42,7 @@ public class Sandwich extends Item {
   }
 
   /**
-   *
+   * get the list of toppings
    * @return LinkedList<String> a Linked List of all the toppings
    */
   public LinkedList<String> getToppings() {
@@ -48,6 +50,7 @@ public class Sandwich extends Item {
   }
 
   /**
+   * if the sandwich has bacon
    * @return boolean
    */
   public boolean hasBacon() {
@@ -55,6 +58,7 @@ public class Sandwich extends Item {
   }
 
   /**
+   * if
    * @return boolean
    */
 
@@ -74,13 +78,17 @@ public class Sandwich extends Item {
    */
 
   /**
-   * @param size size of the sandwich (2-15 in inches) [byte]
+   * set the size of the
+   * precondition: 2-15 in inches
+   * @param size [byte]
    */
   public void setSize(byte size) {
     this.size = size;
   }
 
   /**
+   * set the toppings list
+   * mostly for debug purposes as addTopping is better
    * @param toppings is a Linked List of all the toppings on the sandwich [LinkedList<String>]
    */
   public void setToppings(LinkedList<String> toppings) {
@@ -88,21 +96,24 @@ public class Sandwich extends Item {
   }
 
   /**
-   * @param hasBacon if the sandwich has bacon [boolean]
+   * set if the sandwich has bacon
+   * @param hasBacon [boolean]
    */
   public void setHasBacon(boolean hasBacon) {
     this.hasBacon = hasBacon;
   }
 
   /**
-   * @param toasted if the sandwich has toasted bread [boolean]
+   * set if the sandwich has toasted bread
+   * @param toasted [boolean]
    */
   public void setToasted(boolean toasted) {
     this.toasted = toasted;
   }
 
   /**
-   * @param toy a string that denotes the toy included [String]
+   * set a string that denotes the toy included
+   * @param toy [String]
    */
   public void setToy(String toy) {
     this.toy = toy;

@@ -3,6 +3,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
+ * a class to hold necessary Order data
  * @author Joaquin
  */
 
@@ -33,7 +34,8 @@ public class Order {
    */
 
   /**
-   * @param sandwich add a sandwich to the sandwiches linked list [Sandwich]
+   * add a sandwich to the sandwiches linked list
+   * @param sandwich  [Sandwich]
    * @return offerLast() returns boolean if successful in adding or not
    */
   public boolean addSandwich(Sandwich sandwich) {
@@ -41,7 +43,8 @@ public class Order {
   }
 
   /**
-   * @param drink add a drink to the drinks linked list [Drink]
+   * add a drink to the drinks linked list
+   * @param drink [Drink]
    * @return offerLast() returns boolean if successful in adding or not
    */
   public boolean addDrink(Drink drink) {
@@ -49,6 +52,7 @@ public class Order {
   }
 
   /**
+   * calculates the total cost of the order automatically
    * this method uses an iterator because a 'for' loop + .get() is O(n^2) for a linked list
    * @return returns the total after calculating it
    */
@@ -83,6 +87,7 @@ public class Order {
    */
 
   /**
+   * get list of sandwiches
    * @return LinkedList<Sandwich>
    */
   public LinkedList<Sandwich> getSandwiches() {
@@ -90,6 +95,7 @@ public class Order {
   }
 
   /**
+   * get list of drinks
    * @return LinkedList<Drink>
    */
   public LinkedList<Drink> getDrinks() {
@@ -97,6 +103,7 @@ public class Order {
   }
 
   /**
+   * check if there was a promotion at the time
    * @return boolean
    */
   public boolean isPromotion() {
@@ -104,6 +111,7 @@ public class Order {
   }
 
   /**
+   * get the total cost of the order
    * @return double
    */
   public double getTotal() {
@@ -111,6 +119,7 @@ public class Order {
   }
 
   /**
+   * get the payment method used
    * @return String
    */
   public String getPaymentMethod() {
@@ -118,6 +127,7 @@ public class Order {
   }
 
   /**
+   * get what the confirmation code was that was sent from the bank
    * @return String
    */
   public String getConfirmationCode() {
@@ -125,6 +135,7 @@ public class Order {
   }
 
   /**
+   * get the store ID where the order was placed
    * @return String
    */
   public String getStoreID() {
@@ -132,6 +143,7 @@ public class Order {
   }
 
   /**
+   * get the date the order was placed
    * @return String of LocalDate from java.time.LocalDate
    */
   public String getDate() {
@@ -139,6 +151,7 @@ public class Order {
   }
 
   /**
+   * if the order was paid using membership points
    * @return whether the order was paid using the customer's points on their membership card [boolean]
    */
   public boolean getPaidWithPoints() {
@@ -150,42 +163,49 @@ public class Order {
    */
 
   /**
-   * @param sandwiches set the entire sandwiches linked list [LinkedList<Sandwich>]
+   * set the entire sandwiches linked list
+   * @param sandwiches [LinkedList<Sandwich>]
    */
   public void setSandwiches(LinkedList<Sandwich> sandwiches) {
     this.sandwiches = sandwiches;
   }
 
   /**
-   * @param drinks set the entire drinks linked list [LinkedList<Drink>]
+   * set the entire drinks linked list
+   * @param drinks [LinkedList<Drink>]
    */
   public void setDrinks(LinkedList<Drink> drinks) {
     this.drinks = drinks;
   }
 
   /**
-   * @param promotion whether the store had a promotion at the time of the ordered [boolean]
+   * whether the store had a promotion at the time of the ordered
+   * @param promotion [boolean]
    */
   public void setPromotion(boolean promotion) {
     this.promotion = promotion;
   }
 
   /**
-   * @param total the total price of the order [double]
+   * the total price of the order
+   * @param total [double]
    */
   public void setTotal(double total) {
     this.total = total;
   }
 
   /**
-   * @param paymentMethod which payment method was used [String]
+   * which payment method was used
+   * @param paymentMethod [String]
    */
   public void setPaymentMethod(String paymentMethod) {
     this.paymentMethod = paymentMethod;
   }
 
   /**
-   * @param confirmationCode the code from the financial institution (3 Letters, 4 Numbers. E.g. RHN3421) [String]
+   * the code from the financial institution
+   * precondition: must be 3 Letters, 4 Numbers. E.g. RHN3421
+   * @param confirmationCode [String]
    * @return boolean if the code is valid or not
    */
   public boolean setConfirmationCode(String confirmationCode) {
@@ -208,15 +228,16 @@ public class Order {
   }
 
   /**
-   *
-   * @param ID String ID of the store
+   * set the String ID of the store
+   * @param ID [String]
    */
   public static void setStoreID(String ID) {
     storeID = ID;
   }
 
   /**
-   * @param paidWithPoints set whether the order was paid with points on the customer's membership card and update the points
+   * set whether the order was paid with points on the customer's membership card and update the points
+   * @param paidWithPoints [boolean]
    */
   public boolean setPaidWithPoints(Membership membership, boolean paidWithPoints) {
     if (membership.getPoints() >= getTotal()) {
@@ -235,6 +256,7 @@ public class Order {
    */
 
   /**
+   * toString override
    * @return String with number of sandwiches and drinks
    */
   public String toString() {
