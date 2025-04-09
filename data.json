@@ -45,6 +45,34 @@
         "confirmationCode": "nullWYD1243",
         "dateOrdered": "2025-04-07",
         "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 6,
+            "toppings": [
+              "Tomato",
+              "Lettuce",
+              "Onion"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Roast Beef",
+            "price": 6.0
+          }
+        ],
+        "drinks": [
+          {
+            "type": "Coke",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 8.0,
+        "confirmationCode": "nullEFU5147",
+        "dateOrdered": "2025-04-08",
+        "paidWithPoints": false
       }
     ]
   },
@@ -113,6 +141,82 @@
         "confirmationCode": "nullMQL3012",
         "dateOrdered": "2025-04-07",
         "paidWithPoints": false
+      },
+      {
+        "sandwiches": [],
+        "drinks": [
+          {
+            "type": "Pepsi",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 2.0,
+        "confirmationCode": "nullNCJ7352",
+        "dateOrdered": "2025-04-08",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [],
+        "drinks": [
+          {
+            "type": "7-Up",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 2.0,
+        "confirmationCode": "nullNPM1925",
+        "dateOrdered": "2025-04-08",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [],
+        "drinks": [
+          {
+            "type": "7-Up",
+            "price": 2.0
+          },
+          {
+            "type": "Pepsi",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 4.0,
+        "confirmationCode": "nullDNR4091",
+        "dateOrdered": "2025-04-08",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 12,
+            "toppings": [
+              "Cheese"
+            ],
+            "hasBacon": true,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Steak and Cheese",
+            "price": 10.0
+          }
+        ],
+        "drinks": [
+          {
+            "type": "7-Up",
+            "price": 2.0
+          },
+          {
+            "type": "Dr.Pepper",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 14.0,
+        "confirmationCode": "nullDRD4773",
+        "dateOrdered": "2025-04-08",
+        "paidWithPoints": false
       }
     ]
   },
@@ -171,6 +275,64 @@
         "confirmationCode": "nullIDA4800",
         "dateOrdered": "2025-04-07",
         "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 15,
+            "toppings": [
+              "Tomato",
+              "Lettuce",
+              "Onion",
+              "Cheese",
+              "Peppers"
+            ],
+            "hasBacon": true,
+            "toasted": true,
+            "toy": "No toy ordered",
+            "type": "Steak and Cheese",
+            "price": 12.0
+          },
+          {
+            "size": 6,
+            "toppings": [
+              "Tomato",
+              "Lettuce",
+              "Onion",
+              "Cheese"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Roast Beef",
+            "price": 6.0
+          }
+        ],
+        "drinks": [
+          {
+            "type": "Pepsi",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 20.0,
+        "confirmationCode": "nullJOU6944",
+        "dateOrdered": "2025-04-08",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [],
+        "drinks": [
+          {
+            "type": "Dr.Pepper",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 2.0,
+        "confirmationCode": "nullNXT3552",
+        "dateOrdered": "2025-04-08",
+        "paidWithPoints": false
       }
     ]
   },
@@ -212,12 +374,62 @@
         "confirmationCode": "nullHFY0105",
         "dateOrdered": "2025-04-07",
         "paidWithPoints": false
-      }
-    ]
-  }
-]"2025-04-07",
+      },
+      {
+        "sandwiches": [],
+        "drinks": [
+          {
+            "type": "Pepsi",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 2.0,
+        "confirmationCode": "nullHGA3382",
+        "dateOrdered": "2025-04-08",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [],
+        "drinks": [
+          {
+            "type": "Pepsi",
+            "price": 2.0
+          },
+          {
+            "type": "Coke",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 4.0,
+        "confirmationCode": "nullCTO8913",
+        "dateOrdered": "2025-04-08",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [],
+        "drinks": [
+          {
+            "type": "Pepsi",
+            "price": 2.0
+          },
+          {
+            "type": "Coke",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 4.0,
+        "confirmationCode": "nullXHJ7988",
+        "dateOrdered": "2025-04-08",
         "paidWithPoints": false
       }
     ]
+  },
+  {
+    "name": "Spencer",
+    "email": "realspencer@bing.com",
+    "pastOrders": []
   }
 ]

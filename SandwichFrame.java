@@ -75,6 +75,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
      */
 
     public SandwichFrame() {
+        //sets all the attributes of the frame (self explanatory what each one does)
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setResizable(false);
@@ -82,15 +83,22 @@ public class SandwichFrame extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
         this.setTitle("Joaquin's Filipino Sandwich Shop");
         this.addWindowListener(new WindowAdapter() {
+            /**
+             * This method is activated when the window is supposed to close
+             * @param e the event to be processed
+             */
             @Override
             public void windowClosing(WindowEvent e) {
+                //calls the method to save all the data
                 Main.sandwichIO.customerWrite();
+                //closes the window
                 closeWindow();
             }
         });
         //initialize Icon Image - I could use a throws declaration, but then the frame wouldn't open if there was an exception
         try {
             icon = ImageIO.read(new File("Sandwich Icon.png"));
+            //sets the little icon in the window (won't be there on mac)
             this.setIconImage(icon);
         }
         catch (IOException IOE) {
@@ -113,6 +121,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
                 g.fillRect(0, 0, 200, 800);
             }
         };
+        //setting the attributes of the customer data panel
         customerDataPanel.setLayout(null);
         customerDataPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
         customerDataPanel.setBackground(Color.decode("#77B28C"));
@@ -125,6 +134,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         catch (IOException IOE) {
             System.err.println(IOE);
         }
+        //checks to make sure the logo was actually initialized before trying to create logoLabel
         if (logo != null) {
             logoLabel = new JLabel(new ImageIcon(logo));
             logoLabel.setBounds(25, 0, 150, 150);
@@ -132,7 +142,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
         //Adding stuff to the customerDataPanel
 
-        //Responsible for adding the "Customer Data" button to the side panel
+        //Responsible for adding the "Customer Data" button to the side panel -setting attributes
 
         customerDataButton.setBounds(0, 140, 200, 50);
         customerDataButton.setOpaque(false);
@@ -289,8 +299,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
             @Override
             public void mouseClicked(MouseEvent e) {
+                //get row clicked in customer table
                 int row = customerTable.rowAtPoint(e.getPoint());
 
+                //get the associated customer and email from the table row
                 Customer customer = (Customer) customerTable.getValueAt(row, 0);
                 String email = (String) customerTable.getValueAt(row, 1);
 
@@ -300,12 +312,13 @@ public class SandwichFrame extends JFrame implements ActionListener {
                     currDrinks = new ArrayList<>();
                 }
 
+                //changes the selected customer and calls method to display their past orders
                 selectedCustomer = customer;
                 changePastOrders();
             }
         });
 
-        //initialize scrollPane and add table to it
+        //initialize customer scrollPane and add table to it (allows table to be scrollable)
         customerScroll = new JScrollPane(customerTable);
         customerScroll.setBounds(15, 100, 500, 200);
         //customerScroll.getViewport().setBackground(Color.decode("#C2C5BB"));
@@ -325,18 +338,30 @@ public class SandwichFrame extends JFrame implements ActionListener {
             //String ending = ();
             @Override
             public void changedUpdate(DocumentEvent e) {
-                //System.out.println("changedUpdate");
+                //this isn't used but has to be here because it's a part of the interface and needs implementation
             }
+
+            /**
+             * Detects the removal of a character from the searchEmail text box
+             * @param e the document event
+             */
             
             @Override
             public void removeUpdate(DocumentEvent e) {
+                //call customer searching method in main and update the customer table
                 Customer[] customerArr = Main.sortEmails(searchEmail.getText(), getAppendedEmailEnding());
                 updateTable(customerArr);
 
             }
+
+            /**
+             * Detects the addition of a character to the searchEmail text box
+             * @param e the document event
+             */
             
             @Override
             public void insertUpdate(DocumentEvent e) {
+                //call customer searching method in main and update the customer table
                 Customer[] customerArr = Main.sortEmails(searchEmail.getText(), getAppendedEmailEnding());
                 updateTable(customerArr);
 
@@ -346,7 +371,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
 
         //Email Ending Box
-        String[] endings = {"@gmail.com", "@outlook.com", "@yahoo.com", "Other"};
+        String[] endings = {"@gmail.com", "@outlook.com", "@yahoo.com", "Other"}; //displayed endings
         emailEndings = new JComboBox<>(endings);
         emailEndings.setBounds(365, 45, 150, 50);
         emailEndings.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -368,12 +393,13 @@ public class SandwichFrame extends JFrame implements ActionListener {
             pastOrderData[i][2] = savedOrders.get(i).getDate();
         }
         orderModelTable = new DefaultTableModel(pastOrderData, pastOrderCol) {
-            //already java given java doc above
+            //already java given java doc above (just makes table un-editable because otherwise you can type in it)
             @Override
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
         };
+        //adds the model table to the actual table
         pastOrderTable = new JTable(orderModelTable);
 
         //adds mouse detection for the table
@@ -437,6 +463,11 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
         //initialize rightScroll and addElements
         JPanel rightPanel = new JPanel() {
+
+            /**
+             * Paints rectangle on JPanel
+             * @param g the <code>Graphics</code> object to protect
+             */
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor(Color.decode("#C2C5BB"));
@@ -444,6 +475,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             }
         };
         rightPanel.setLayout(null);
+        //sets preferred dimensions (can resize, but will choose to be these dimensions if possible, good when adding to scroll pane)
         rightPanel.setPreferredSize(new Dimension(532, 4200));
 
         rightPanel.add(customerScroll);
@@ -475,10 +507,19 @@ public class SandwichFrame extends JFrame implements ActionListener {
             italianBMT.setBounds(40, 1020, 180, 180);
             italianBMT.setBorder(BorderFactory.createEmptyBorder());
             italianBMT.addMouseListener(new MouseAdapter() {
+                /**
+                 * Detects when the mouse in hovering the button, if so change the cursor to the middle hand icon
+                 * @param e the event to be processed
+                 */
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 }
+
+                /**
+                 * When cursor goes from hovering to not hover, change back to regular cursor
+                 * @param e the event to be processed
+                 */
 
                 @Override
                 public void mouseExited(MouseEvent e) {
@@ -486,8 +527,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
                 }
             });
             italianBMT.addActionListener(this);
+            //adds client property, (Key, object to return), this is used to differential the buttons from each other, returns enum
             italianBMT.putClientProperty("MenuItem", MenuItems.ITALIAN_BMT);
 
+            //Every thing else in this try catch is the exact same so im not going to comment it all
 
             //initialize turkey
             turkeyBreast = new JButton();
@@ -580,7 +623,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             System.err.println("Error loading image files");
         }
 
-        //initialization for components to be used in order frame
+        //initialization for components to be used in order frame - the checkboxes for toppings
 
         tomato = new JCheckBox("Tomato");
         tomato.setBounds(260, 80, 100, 25);
@@ -639,7 +682,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         toasted.setFocusPainted(false);
 
         //initialize size drop down menu
-        String[] sizeArr = {"6 inch", "12 inch"};
+        String[] sizeArr = {"6 inch", "12 inch"}; //items in drop down
         sizes = new JComboBox<>(sizeArr);
         sizes.setBounds(260, 350, 180, 25);
         sizes.setBackground(Color.WHITE);
@@ -690,6 +733,8 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
         //--------------------------
 
+        //scroll pane that the right panel goes in (to make it scrollable)
+
         rightScroll = new JScrollPane(rightPanel);
         rightScroll.setBounds(230, 10, 532, 740);
         rightScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -698,7 +743,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
 
 
-        //add Elements to customerDataPanel
+        //add Elements to customerDataPanel - entire screen
         customerDataPanel.add(customerDataButton);
         customerDataPanel.add(createOrderButton);
         customerDataPanel.add(addCustomerButton);
@@ -721,27 +766,39 @@ public class SandwichFrame extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        //e.getSource() returns the object that called the actionListener
+
+        //email ending box has different value selected
         if (e.getSource() == emailEndings) {
-            String emailEnding = (Objects.equals(emailEndings.getSelectedItem(), "Other")) ? "" : (String) emailEndings.getSelectedItem();
+            //String emailEnding = (Objects.equals(emailEndings.getSelectedItem(), "Other")) ? "" : (String) emailEndings.getSelectedItem();
+            //calls the search method for customers, and returns only those with the selected email endings, other = any ending
             if (searchEmail.getText() != null)  {
                 Customer[] arr = Main.sortEmails(searchEmail.getText(), getAppendedEmailEnding());
                 updateTable(arr);
             }
         }
-        else if (e.getSource() == createOrderButton) {
+        else if (e.getSource() == createOrderButton) { //side button (only going to comment one bc all same
+            //return if already at expected spot in scroll pane
             if (rightScroll.getVerticalScrollBar().getValue() == 1000) return;
+            //initial timer, activates every 1ms and calls overridden actionListener
             timer = new Timer(1, new ActionListener() {
+                /**
+                 * Controls scrolling of right scroll pane when button pressed - Timer version
+                 * @param e the event to be processed
+                 */
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    //because this spot in the pane can either go up or down, a ternary is used to determine which way it needs to go to get to the 'create order' area
                     rightScroll.getVerticalScrollBar().setValue(rightScroll.getVerticalScrollBar().getValue()+((rightScroll.getVerticalScrollBar().getValue() < 1000) ? 20 : -20));
 
+                    //check to see if the scroll pane is at the right spot in the pane (if so stop timer and set it directly to 1000)
                     if (rightScroll.getVerticalScrollBar().getValue() >= 1000 && Math.abs(rightScroll.getVerticalScrollBar().getValue()-1000) <= 30 ){
                         timer.stop();
                         rightScroll.getVerticalScrollBar().setValue(1000); //in case of surpassing 1000
                     }
                 }
             });
-            timer.start();
+            timer.start(); //starts the timer
         }
         else if (e.getSource() == customerDataButton) {
             timer = new Timer(1, new ActionListener() {
@@ -771,6 +828,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             timer.start();
         }
         else if (e.getSource() == createCustomer) {
+            //make customer with inputted data, return if one of the fields is blank (don't make the customer)
             if (name.getText().isBlank() || email.getText().isBlank()) return;
             Customer newCustomer = new Customer(name.getText(), email.getText());
             Main.customers.add(newCustomer);
@@ -778,12 +836,14 @@ public class SandwichFrame extends JFrame implements ActionListener {
                Passing in a customer array of size 0 to toArray allows it to convert the arrayList to type customer
                rather than Object.
              */
+            //does all the needed stuff like updating file io
             updateTable(Main.customers.toArray(new Customer[0]));
             Main.sandwichIO.addCustomer(newCustomer);
             name.setText("");
             email.setText("");
         }
         else if (e.getSource() == upgraded) {
+            //if sandwich plus is selected, auto select certain features, if deselected remove certain features
             bacon.setSelected(upgraded.isSelected());
             toy.setSelected(upgraded.isSelected());
             //gray out size drop down
@@ -799,21 +859,25 @@ public class SandwichFrame extends JFrame implements ActionListener {
             }
         }
         else if (e.getSource() == confirmSandwich) {
-            //adds sandwich to currOrder
+            //adds sandwich to currOrder and closes customization frame
             addSandwich();
             customizationFrame.dispose();
         }
         else if (e.getSource() == confirmDrink) {
+            //adds drink to currDrink and gets rid of drink selection frame
             addDrink();
             drinkFrame.dispose();
         }
         else if (e.getSource() == confirmOrder) {
+            //make order
             createOrder();
         }
         else if (e.getSource() == pepsiButton) {
+            //open drink frame
             createDrinkFrame();
         }
         else if (e.getSource() instanceof JButton){
+            //if this activates its 100% going to be one of the sandwich buttons, however makes sure the button has a client property (with key MenuItem) before passing it through
             if (((JButton) e.getSource()).getClientProperty("MenuItem") != null) customizationFrame((JButton) e.getSource());
         }
     }
@@ -881,16 +945,19 @@ public class SandwichFrame extends JFrame implements ActionListener {
             sandwichType.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichType);
 
+            //info about sandwich size
             JLabel sandwichSize = new JLabel("Sandwich Size: " + sandwiches.get(i).getSize());
             sandwichSize.setBounds(25, 50 + 50*(i) + 250*i, 450, 30);
             sandwichSize.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichSize);
 
+            //info about if sandwich has bacon
             JLabel sandwichHasBacon = new JLabel("Sandwich Has Bacon: " + ((sandwiches.get(i).hasBacon()) ? "Yes" : "No"));
             sandwichHasBacon.setBounds(25, 100 + 50*i + 250*i, 450, 30);
             sandwichHasBacon.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichHasBacon);
 
+            //info about if sandwich is toasted
             JLabel sandwichToasted = new JLabel("Sandwich is Toasted: " + ((sandwiches.get(i).isToasted()) ? "Yes" : "No"));
             sandwichToasted.setBounds(25, 150 + 50*i + 250*i, 450, 30);
             sandwichToasted.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -908,11 +975,13 @@ public class SandwichFrame extends JFrame implements ActionListener {
             sandwichToppings.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichToppings);
 
+            //info about if order has toy
             JLabel toyIncluded = new JLabel("Toy Included: " + sandwiches.get(i).getToy());
             toyIncluded.setBounds(25, 250 + 50*i + 250*i, 450, 30);
             toyIncluded.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(toyIncluded);
 
+            //drinks in order
             StringBuilder drinksOrdered = new StringBuilder();
             for (Drink d : drinks) {
                 drinksOrdered.append(d.getType()).append(", ");
@@ -922,8 +991,22 @@ public class SandwichFrame extends JFrame implements ActionListener {
             drinkLabel.setBounds(25, 300 + 50*i, 450, 30);
             drinkLabel.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(drinkLabel);
+        }
+        if (sandwiches.isEmpty() && !drinks.isEmpty()) {
+            //just easy way to display drink only orders
+            //drinks in order
+            StringBuilder drinksOrdered = new StringBuilder();
+            for (Drink d : drinks) {
+                drinksOrdered.append(d.getType()).append(", ");
+            }
+            if (drinksOrdered.length() >= 2) drinksOrdered = new StringBuilder(drinksOrdered.substring(0, drinksOrdered.length()-2));
+            JLabel drinkLabel = new JLabel("Drinks Ordered: " + drinksOrdered);
+            drinkLabel.setBounds(25,  0, 450, 30);
+            drinkLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+            newSummaryPanel.add(drinkLabel);
 
         }
+        //swaps the panel in scroll pane to newly created one (calls viewport to do so)
         orderSummaryScrollPane.getViewport().removeAll();
         orderSummaryScrollPane.getViewport().add(newSummaryPanel);
     }
@@ -934,10 +1017,12 @@ public class SandwichFrame extends JFrame implements ActionListener {
      */
     public void updateTable(Customer[] customerList) {
 
+        //delete rows, starts from bottom and goes to top (otherwise table will shrink and loop will go out of bounds)
         for (int i = modelTable.getRowCount()-1; i >= 0; i--) {
             modelTable.removeRow(i);
         }
         for (Customer c : customerList) {
+            //creates nwe object array containing a customer, and their email to add to the table as a row
             modelTable.addRow(new Object[] {c, c.getEmail()});
             //System.out.println(c);
         }
@@ -966,16 +1051,17 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
         if (selectedCustomer == null) return; //makes sure there is a customer associated with the order
 
-        if (customizationFrame != null) customizationFrame.dispose();
+        if (customizationFrame != null) customizationFrame.dispose(); //if a customization frame is already open, close it
 
-        clearToppings();
+        clearToppings(); //resets check boxes for toppings
 
+        //initializes customization frame
         customizationFrame = new JFrame();
         customizationFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         customizationFrame.setUndecorated(true); //turns off window's default window border
         customizationFrame.setLayout(null);
         customizationFrame.setResizable(false);
-        customizationFrame.setLocation(this.getLocation());
+        customizationFrame.setLocation(this.getLocation()); //sets location to main frame
         customizationFrame.setSize(500, 600);
         customizationFrame.setTitle("Customize Sandwich");
         customizationFrame.addWindowListener(new WindowAdapter() {
@@ -985,7 +1071,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             }
         });
 
-        //---- Create new window border ----
+        //---- Create new window border ---- (replaces the top bar with a custom one)
 
             JPanel decoration = new JPanel();
             decoration.setLayout(null);
@@ -993,6 +1079,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
             decoration.setBackground(Color.WHITE);
 
             decoration.addMouseListener(new MouseAdapter() {
+                /**
+                 * Gets mouse position at time of click on decoration bar
+                 * @param e the event to be processed
+                 */
                 @Override
                 public void mousePressed(MouseEvent e) {
                     mouseX = e.getX();
@@ -1001,6 +1091,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
                 }
             });
             decoration.addMouseMotionListener(new MouseMotionAdapter() {
+                /**
+                 * Gets location of window to mouse cursor when dragging window
+                 * @param e the event to be processed
+                 */
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     customizationFrame.setLocation(e.getXOnScreen()-mouseX, e.getYOnScreen()-mouseY);
@@ -1011,7 +1105,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             try {
                 BufferedImage xIcon = ImageIO.read(new File("XIcon.png"));
 
-                //add x icon
+                //add x icon - acts as close button
 
                 JButton xButton = new JButton();
                 xButton.setIcon(new ImageIcon(xIcon));
@@ -1022,6 +1116,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
                 xButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        //close frame when clicked
                         customizationFrame.dispose();
                     }
                 });
@@ -1063,6 +1158,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
         //------------------------------------------
 
+        //checks to see which button has been passed in - slightly different creation of frame
         switch (pressedButton.getClientProperty("MenuItem")) {
             case MenuItems.ITALIAN_BMT -> {
                 if (italianIMG != null) {
@@ -1158,6 +1254,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
      */
 
     private void createDrinkFrame() {
+        //sets up frame - refer to other frame (same stuff)
         drinkFrame = new JFrame();
         drinkFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         drinkFrame.setUndecorated(true); //turns off window's default window border
@@ -1169,6 +1266,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         drinkFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                //close frame
                 drinkFrame.dispose();
             }
         });
@@ -1177,6 +1275,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         decoration.setLayout(null);
         decoration.setBounds(0, 0, drinkFrame.getWidth(), 30);
         decoration.setBackground(Color.WHITE);
+        //allows panel to be dragged
         decoration.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -1207,6 +1306,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             xButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    //close frame when clicked
                     drinkFrame.dispose();
                 }
             });
@@ -1216,8 +1316,10 @@ public class SandwichFrame extends JFrame implements ActionListener {
             System.out.println("Error loading ordering menu - X Icon not found");
         }
 
+        //add bar to top
         drinkFrame.add(decoration, BorderLayout.NORTH);
 
+        //set up panel and all the drink check boxes
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.setBounds(0, 0, drinkFrame.getWidth(), drinkFrame.getHeight());
@@ -1258,6 +1360,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         sprite.setBorder(BorderFactory.createEmptyBorder());
         sprite.setFocusPainted(false);
 
+        //adds checkboxes to panel
         panel.add(pepsi);
         panel.add(coke);
         panel.add(sevenUp);
@@ -1265,6 +1368,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         panel.add(sprite);
         panel.add(confirmDrink);
 
+        //add panel to frame
         drinkFrame.add(panel);
         drinkFrame.setVisible(true);
     }
@@ -1273,16 +1377,20 @@ public class SandwichFrame extends JFrame implements ActionListener {
      * takes all the sandwiches and drinks and creates and order then adds it to the selected customers past orders
      */
 
+    //creates order object
     private void createOrder() {
         if (selectedCustomer == null || (currSandwiches.isEmpty() && currDrinks.isEmpty())) return;
         Order order = new Order();
 
+        //loops through sandwich array and adds it to order
         for (Sandwich sandwich : currSandwiches) {
             order.addSandwich(sandwich);
         }
+        //loops through drink array and adds it to drink array
         for (Drink drink : currDrinks) {
             order.addDrink(drink);
         }
+        //calculate cost of order, and update the customers past orders
         order.calcTotal();
         selectedCustomer.addOrder(order);
         changePastOrders();
@@ -1300,6 +1408,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             sandwichPlus.setType(sandwichTypeForSave);
             //create linked list of toppings
             LinkedList<String> toppings = new LinkedList<>();
+            //look to see what toppings were selected
             if (tomato.isSelected()) {
                 toppings.add("Tomato");
             }
@@ -1317,6 +1426,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             }
             if (!toppings.isEmpty()) sandwichPlus.setToppings(toppings);
 
+            //add sandwich to curr sandwich array
             currSandwiches.add(sandwichPlus);
         }
         else {
@@ -1334,6 +1444,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             }
             //create linked list of toppings
             LinkedList<String> toppings = new LinkedList<>();
+            //add selected toppings
             if (tomato.isSelected()) {
                 toppings.add("Tomato");
             }
@@ -1352,6 +1463,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
 
             if (!toppings.isEmpty()) sandwich.setToppings(toppings);
 
+            //add sandwich to curr sandwich array
             currSandwiches.add(sandwich);
         }
     }
@@ -1360,32 +1472,34 @@ public class SandwichFrame extends JFrame implements ActionListener {
      * adds drink Object to arraylist (all that were checked)
      */
 
+    //create drink object to add to arraylist
     private void addDrink() {
+        //check to see which drinks were selected, make an object for that drink and add it to drink array
         if (pepsi.isSelected()) {
             Drink drink = new Drink();
             drink.setType("Pepsi");
             drink.setPrice(2);
             currDrinks.add(drink);
         }
-        else if (coke.isSelected()) {
+        if (coke.isSelected()) {
             Drink drink = new Drink();
             drink.setType("Coke");
             drink.setPrice(2);
             currDrinks.add(drink);
         }
-        else if (sevenUp.isSelected()) {
+        if (sevenUp.isSelected()) {
             Drink drink = new Drink();
             drink.setType("7-Up");
             drink.setPrice(2);
             currDrinks.add(drink);
         }
-        else if (drPepper.isSelected()) {
+        if (drPepper.isSelected()) {
             Drink drink = new Drink();
             drink.setType("Dr.Pepper");
             drink.setPrice(2);
             currDrinks.add(drink);
         }
-        else if (sprite.isSelected()) {
+        if (sprite.isSelected()) {
             Drink drink = new Drink();
             drink.setType("Sprite");
             drink.setPrice(2);
