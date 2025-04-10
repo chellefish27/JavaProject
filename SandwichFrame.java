@@ -56,7 +56,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
     //Components for Order creation area
     private JButton italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham, confirmSandwich, confirmDrink, confirmOrder, pepsiButton;
     private BufferedImage italianIMG, turkeyIMG, roastIMG, coldCutIMG, steakIMG, hamIMG, pepsiIMG;
-    private  JCheckBox tomato, lettuce, onion, cheese, peppers, upgraded, bacon, toy, toasted, pepsi, coke, sevenUp, drPepper, sprite;
+    private  JCheckBox tomato, lettuce, onion, cheese, peppers, upgraded, bacon, toy, toasted, pepsi, coke, sevenUp, drPepper, sprite, promotion;
     private int mouseX, mouseY; //going to be used to track mouse cords for dragging frame
     private final JComboBox<String> sizes;
     private JFrame customizationFrame, drinkFrame;
@@ -688,10 +688,17 @@ public class SandwichFrame extends JFrame implements ActionListener {
         toasted.setBorder(BorderFactory.createEmptyBorder());
         toasted.setFocusPainted(false);
 
+        //initialize promotion button
+        promotion = new JCheckBox("Promotion");
+        promotion.setBounds(260, 350, 100, 25);
+        promotion.setBackground(Color.white);
+        promotion.setBorder(BorderFactory.createEmptyBorder());
+        promotion.setFocusPainted(false);
+
         //initialize size drop down menu
         String[] sizeArr = {"2 inch ", "3 inch", "4 inch", "5 inch","6 inch", "7 inch", "8 inch", "9 inch", "10 inch", "11 inch", "12 inch", "13 inch", "14 inch"}; //items in drop down
         sizes = new JComboBox<>(sizeArr);
-        sizes.setBounds(260, 350, 180, 25);
+        sizes.setBounds(260, 380, 180, 25);
         sizes.setBackground(Color.WHITE);
         sizes.setBorder(BorderFactory.createEmptyBorder());
 
@@ -950,7 +957,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             //creates new JLabel
             //sets the location in the JPanel
             //sets the font for the label
-            JLabel sandwichType = new JLabel("Sandwich Type: " + sandwiches.get(i).getType());
+            JLabel sandwichType = new JLabel("Sandwich Type: " + sandwiches.get(i).getType() + ((promotion.isSelected()) ? " *Promotion" : ""));
             sandwichType.setBounds(25, 50*(i) + 450*i, 450, 30);
             sandwichType.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichType);
@@ -1195,6 +1202,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             panel.add(toasted);
             panel.add(sizes);
             panel.add(confirmSandwich);
+            panel.add(promotion);
 
         //------------------------------------------
 
@@ -1434,7 +1442,9 @@ public class SandwichFrame extends JFrame implements ActionListener {
         order.calcTotal();
         order.setPaymentMethod((paymentMethod.getText() != null ) ? paymentMethod.getText() : "Not Specified");
         selectedCustomer.addOrder(order);
+
         changePastOrders();
+        order.setPromotion(promotion.isSelected());
         //reset stored sandwiches and drink
         currSandwiches = new ArrayList<>();
         currDrinks = new ArrayList<>();
