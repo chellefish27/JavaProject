@@ -73,6 +73,30 @@
         "confirmationCode": "nullEFU5147",
         "dateOrdered": "2025-04-08",
         "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 14,
+            "toppings": [
+              "Tomato",
+              "Lettuce",
+              "Cheese"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Steak and Cheese",
+            "price": 21.0
+          }
+        ],
+        "drinks": [],
+        "promotion": false,
+        "total": 21.0,
+        "confirmationCode": "nullSOV9542",
+        "localStoreID": "coolstore",
+        "dateOrdered": "2025-04-09",
+        "paidWithPoints": false
       }
     ]
   },
@@ -216,6 +240,33 @@
         "total": 14.0,
         "confirmationCode": "nullDRD4773",
         "dateOrdered": "2025-04-08",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 6,
+            "toppings": [
+              "Tomato",
+              "Lettuce"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 6.0
+          }
+        ],
+        "drinks": [
+          {
+            "type": "Pepsi",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 8.0,
+        "confirmationCode": "nullUOD5652",
+        "dateOrdered": "2025-04-09",
         "paidWithPoints": false
       }
     ]
@@ -430,6 +481,230 @@
   {
     "name": "Spencer",
     "email": "realspencer@bing.com",
-    "pastOrders": []
+    "pastOrders": [
+      {
+        "sandwiches": [
+          {
+            "size": 5,
+            "toppings": [
+              "Tomato",
+              "Lettuce",
+              "Onion"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 10.0
+          }
+        ],
+        "drinks": [],
+        "promotion": false,
+        "total": 10.0,
+        "confirmationCode": "nullFZG2090",
+        "dateOrdered": "2025-04-09",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 5,
+            "toppings": [
+              "Tomato",
+              "Lettuce",
+              "Onion"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 10.0
+          },
+          {
+            "size": 12,
+            "toppings": [
+              "Tomato",
+              "Lettuce",
+              "Onion"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Turkey Breast",
+            "price": 24.0
+          }
+        ],
+        "drinks": [],
+        "promotion": false,
+        "total": 34.0,
+        "confirmationCode": "nullLTW3833",
+        "dateOrdered": "2025-04-09",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 3,
+            "toppings": [
+              "Tomato",
+              "Lettuce"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 6.0
+          }
+        ],
+        "drinks": [
+          {
+            "type": "Sprite",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 8.0,
+        "confirmationCode": "nullNOL2220",
+        "dateOrdered": "2025-04-09",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 15,
+            "toppings": [
+              "Tomato",
+              "Lettuce",
+              "Onion"
+            ],
+            "hasBacon": true,
+            "toasted": true,
+            "toy": "No toy ordered",
+            "type": "Roast Beef+",
+            "price": 22.5
+          }
+        ],
+        "drinks": [],
+        "promotion": false,
+        "total": 22.5,
+        "confirmationCode": "nullIDX2439",
+        "dateOrdered": "2025-04-09",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 8,
+            "toppings": [
+              "Tomato",
+              "Lettuce"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 12.0
+          }
+        ],
+        "drinks": [
+          {
+            "type": "Sprite",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 14.0,
+        "paymentMethod": "Credit",
+        "confirmationCode": "nullORW8115",
+        "localStoreID": "joa-quin",
+        "dateOrdered": "2025-04-09",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [],
+        "drinks": [
+          {
+            "type": "Pepsi",
+            "price": 2.0
+          },
+          {
+            "type": "Coke",
+            "price": 2.0
+          },
+          {
+            "type": "7-Up",
+            "price": 2.0
+          },
+          {
+            "type": "Dr.Pepper",
+            "price": 2.0
+          },
+          {
+            "type": "Sprite",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 10.0,
+        "paymentMethod": "Credit",
+        "confirmationCode": "nullWKH6050",
+        "localStoreID": "eeee",
+        "dateOrdered": "2025-04-09",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 2,
+            "toppings": [
+              "Tomato",
+              "Lettuce"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 3.0
+          }
+        ],
+        "drinks": [],
+        "promotion": false,
+        "total": 3.0,
+        "paymentMethod": "Type Payment Method Here",
+        "confirmationCode": "VJB6018",
+        "localStoreID": "StoreID",
+        "dateOrdered": "2025-04-09",
+        "paidWithPoints": false
+      },
+      {
+        "sandwiches": [
+          {
+            "size": 2,
+            "toppings": [
+              "Tomato",
+              "Lettuce"
+            ],
+            "hasBacon": false,
+            "toasted": false,
+            "toy": "No toy ordered",
+            "type": "Italian BMT",
+            "price": 3.0
+          }
+        ],
+        "drinks": [
+          {
+            "type": "Sprite",
+            "price": 2.0
+          }
+        ],
+        "promotion": false,
+        "total": 5.0,
+        "paymentMethod": "debit",
+        "confirmationCode": "IAN9268",
+        "localStoreID": "StoreID",
+        "dateOrdered": "2025-04-09",
+        "paidWithPoints": false
+      }
+    ]
   }
 ]
