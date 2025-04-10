@@ -1,4 +1,5 @@
 /**
+ * An abstract class to group together Sandwich and Drink as Menu Items
  * @author Joaquin
  */
 
@@ -11,6 +12,7 @@ public abstract class Item {
    */
 
     /**
+     * get the type of Item
      * @return String
      */
     public String getType() {
@@ -18,6 +20,7 @@ public abstract class Item {
     }
 
     /**
+     * get the price of Item
      * @return double
      */
     public double getPrice() {
@@ -29,6 +32,7 @@ public abstract class Item {
     */
 
     /**
+     * set the type of Item
      * @param type the type of whichever food subclass [String]
      */
     public void setType(String type) {
@@ -36,6 +40,7 @@ public abstract class Item {
     }
 
     /**
+     * set the price of Item
      * @param price the price of the food [double]
      */
     public void setPrice(double price) {

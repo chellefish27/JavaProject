@@ -1,4 +1,5 @@
 /**
+ * A class to create a Drink object with all the needed information
  * @author Joaquin
  * @see Item
  */
@@ -43,7 +44,7 @@ public class Drink extends Item {
    */
 
     /**
-     *
+     * get the size of the drink
      * @return Size enum
      */
     public Size getSize() {
@@ -51,7 +52,7 @@ public class Drink extends Item {
     }
 
     /**
-     *
+     * get the temperature of the drink
      * @return Temperature enum
      */
     public Temperature getTemp() {
@@ -59,7 +60,7 @@ public class Drink extends Item {
     }
 
     /**
-     *
+     * get the level of ice in the drink
      * @return IceLevel enum
      */
     public IceLevel getIce() {
@@ -71,14 +72,16 @@ public class Drink extends Item {
     */
 
     /**
+     * set the size of the drink
      * @param size an instance of Size enum [Size]
      * @see Size
      */
-    public void setTemp(Size size) {
+    public void setSize(Size size) {
         this.size = size;
     }
 
     /**
+     * set the temperature
      * @param temp an instance of Temperature enum [Temperature]
      * @see Temperature
      */
@@ -87,6 +90,8 @@ public class Drink extends Item {
     }
 
     /**
+     * set the amount of ice
+     * precondition: the drink must be cold
      * @param ice an instance of IceLevel enum [IceLevel]
      * @see IceLevel
      */

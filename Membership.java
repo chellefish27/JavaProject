@@ -1,5 +1,9 @@
 import java.util.LinkedList;
 
+/**
+ * A class to hold membership information for each customer
+ * @author Joaquin
+ */
 public class Membership {
     private double points;
 
@@ -17,6 +21,7 @@ public class Membership {
     }
 
     /**
+     * add the points based on the amount of sandwiches and drinks in the order
      * @param sandwichAmount size of sandwiches array
      * @param drinkAmount size of drinks array
      */
@@ -30,7 +35,7 @@ public class Membership {
     */
 
     /**
-     *
+     * get the current points
      * @return double
      */
     public double getPoints() {
