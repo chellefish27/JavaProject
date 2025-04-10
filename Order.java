@@ -13,8 +13,9 @@ public class Order {
   private boolean promotion;
   private double total;
   private String paymentMethod;
-  private String confirmationCode;
+  private String confirmationCode = "";
   private static String storeID;
+  private final String localStoreID;
   private final String dateOrdered;
   private boolean paidWithPoints;
 
@@ -27,6 +28,7 @@ public class Order {
       confirmationCode += (int)(Math.random() * (9+1));
     }
     dateOrdered = LocalDate.now().toString();
+    localStoreID = storeID;
   }
 
   /*
@@ -69,7 +71,7 @@ public class Order {
       total += drink.getPrice();
     }
 
-    return total;
+    return total*1.13;
   }
 
   /**
@@ -87,8 +89,17 @@ public class Order {
    */
 
   /**
+   * returns the storeID of the order
+   * @return <code>String</code>
+   */
+
+  public String getLocalStoreID() {
+    return localStoreID;
+  }
+
+  /**
    * get list of sandwiches
-   * @return LinkedList<Sandwich>
+   * @return <code>LinkedList<Sandwich></code>
    */
   public LinkedList<Sandwich> getSandwiches() {
     return sandwiches;

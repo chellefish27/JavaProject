@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 
@@ -62,6 +61,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
     private final JComboBox<String> sizes;
     private JFrame customizationFrame, drinkFrame;
     private String sandwichTypeForSave;
+    private final JTextField paymentMethod = new JTextField("Type Payment Method Here");
 
     //components for add customer
     private JTextField name, email;
@@ -495,6 +495,12 @@ public class SandwichFrame extends JFrame implements ActionListener {
         confirmOrder.setFocusPainted(false);
         confirmOrder.addActionListener(this);
 
+        //create textField for payment method
+        paymentMethod.setBounds(40, 1650, 200, 30);
+        paymentMethod.setBackground(Color.WHITE);
+        paymentMethod.addActionListener(this);
+
+
         //---- Initialize sandwich buttons ----
 
         //italianBMT, turkeyBreast, roastBeef, coldCutCombo, steakAndCheese, ham
@@ -667,6 +673,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         bacon.setBackground(Color.white);
         bacon.setBorder(BorderFactory.createEmptyBorder());
         bacon.setFocusPainted(false);
+        bacon.setEnabled(false);
 
         toy = new JCheckBox("Toy Included");
         toy.setBounds(260, 290, 100, 25);
@@ -682,7 +689,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         toasted.setFocusPainted(false);
 
         //initialize size drop down menu
-        String[] sizeArr = {"6 inch", "12 inch"}; //items in drop down
+        String[] sizeArr = {"2 inch ", "3 inch", "4 inch", "5 inch","6 inch", "7 inch", "8 inch", "9 inch", "10 inch", "11 inch", "12 inch", "13 inch", "14 inch"}; //items in drop down
         sizes = new JComboBox<>(sizeArr);
         sizes.setBounds(260, 350, 180, 25);
         sizes.setBackground(Color.WHITE);
@@ -722,6 +729,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         emailLabel = new JLabel("Customer Email: ");
         emailLabel.setBounds(20, 3100, 300, 30);
 
+
         //add to rightPanel
         rightPanel.add(name);
         rightPanel.add(email);
@@ -729,6 +737,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
         rightPanel.add(nameLabel);
         rightPanel.add(emailLabel);
         rightPanel.add(confirmOrder);
+        rightPanel.add(paymentMethod);
 
 
         //--------------------------
@@ -846,6 +855,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             //if sandwich plus is selected, auto select certain features, if deselected remove certain features
             bacon.setSelected(upgraded.isSelected());
             toy.setSelected(upgraded.isSelected());
+            bacon.setEnabled(upgraded.isSelected());
             //gray out size drop down
             if (upgraded.isSelected()) {
                 sizes.setEnabled(false);
@@ -855,7 +865,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
             else {
                 sizes.setEnabled(true);
                 sizes.removeItem("15 inch");
-                sizes.setSelectedItem("6 inch");
+                sizes.setSelectedItem("2 inch");
             }
         }
         else if (e.getSource() == confirmSandwich) {
@@ -930,8 +940,8 @@ public class SandwichFrame extends JFrame implements ActionListener {
         //create a new JPanel to be added to the Scroll Pane
         JPanel newSummaryPanel = new JPanel();
         newSummaryPanel.setLayout(null);
-        newSummaryPanel.setPreferredSize(new Dimension(450, 300*sandwiches.size() + 30*drinks.size()));
-
+        if (!sandwiches.isEmpty()) newSummaryPanel.setPreferredSize(new Dimension(450, 450*sandwiches.size() + 30*drinks.size()));
+        else newSummaryPanel.setPreferredSize(new Dimension(450, 200));
 
         //create and add all the sandwich labels (data) to the JPanel
         for (int i = 0; i < sandwiches.size(); i++) {
@@ -941,25 +951,25 @@ public class SandwichFrame extends JFrame implements ActionListener {
             //sets the location in the JPanel
             //sets the font for the label
             JLabel sandwichType = new JLabel("Sandwich Type: " + sandwiches.get(i).getType());
-            sandwichType.setBounds(25, 50*(i) + 250*i, 450, 30);
+            sandwichType.setBounds(25, 50*(i) + 450*i, 450, 30);
             sandwichType.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichType);
 
             //info about sandwich size
             JLabel sandwichSize = new JLabel("Sandwich Size: " + sandwiches.get(i).getSize());
-            sandwichSize.setBounds(25, 50 + 50*(i) + 250*i, 450, 30);
+            sandwichSize.setBounds(25, 50 + 50*(i) + 450*i, 450, 30);
             sandwichSize.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichSize);
 
             //info about if sandwich has bacon
             JLabel sandwichHasBacon = new JLabel("Sandwich Has Bacon: " + ((sandwiches.get(i).hasBacon()) ? "Yes" : "No"));
-            sandwichHasBacon.setBounds(25, 100 + 50*i + 250*i, 450, 30);
+            sandwichHasBacon.setBounds(25, 100 + 50*i + 450*i, 450, 30);
             sandwichHasBacon.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichHasBacon);
 
             //info about if sandwich is toasted
             JLabel sandwichToasted = new JLabel("Sandwich is Toasted: " + ((sandwiches.get(i).isToasted()) ? "Yes" : "No"));
-            sandwichToasted.setBounds(25, 150 + 50*i + 250*i, 450, 30);
+            sandwichToasted.setBounds(25, 150 + 50*i + 450*i, 450, 30);
             sandwichToasted.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichToasted);
 
@@ -971,13 +981,13 @@ public class SandwichFrame extends JFrame implements ActionListener {
             if (toppings.length()-2 >= 0) toppings = new StringBuilder(toppings.substring(0, toppings.length() - 2));
 
             JLabel sandwichToppings = new JLabel("Sandwich Toppings: " + toppings);
-            sandwichToppings.setBounds(25, 200 + 50*i + 250*i, 450, 30);
+            sandwichToppings.setBounds(25, 200 + 50*i + 450*i, 450, 30);
             sandwichToppings.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(sandwichToppings);
 
             //info about if order has toy
             JLabel toyIncluded = new JLabel("Toy Included: " + sandwiches.get(i).getToy());
-            toyIncluded.setBounds(25, 250 + 50*i + 250*i, 450, 30);
+            toyIncluded.setBounds(25, 250 + 50*i + 450*i, 450, 30);
             toyIncluded.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(toyIncluded);
 
@@ -988,9 +998,24 @@ public class SandwichFrame extends JFrame implements ActionListener {
             }
             if (drinksOrdered.length() >= 2) drinksOrdered = new StringBuilder(drinksOrdered.substring(0, drinksOrdered.length()-2));
             JLabel drinkLabel = new JLabel("Drinks Ordered: " + drinksOrdered);
-            drinkLabel.setBounds(25, 300 + 50*i, 450, 30);
+            drinkLabel.setBounds(25, 300 + 50*i + 450*i, 450, 30);
             drinkLabel.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(drinkLabel);
+
+            JLabel storeID = new JLabel("Store ID: " + order.getLocalStoreID());
+            storeID.setBounds(25, 350 + 50*i + 450*i, 450, 30);
+            storeID.setFont(new Font("Arial", Font.PLAIN, 15));
+            newSummaryPanel.add(storeID);
+
+            JLabel paymentMethod = new JLabel("Payment Method: " + order.getPaymentMethod());
+            paymentMethod.setBounds(25, 400 + 50*i + 450*i, 450, 30);
+            paymentMethod.setFont(new Font("Arial", Font.PLAIN, 15));
+            newSummaryPanel.add(paymentMethod);
+
+            JLabel bankConfirmation = new JLabel("Bank Confirmation: " + order.getConfirmationCode());
+            bankConfirmation.setBounds(25, 450 + 50*i + 450*i, 450, 30);
+            bankConfirmation.setFont(new Font("Arial", Font.PLAIN, 15));
+            newSummaryPanel.add(bankConfirmation);
         }
         if (sandwiches.isEmpty() && !drinks.isEmpty()) {
             //just easy way to display drink only orders
@@ -1004,6 +1029,21 @@ public class SandwichFrame extends JFrame implements ActionListener {
             drinkLabel.setBounds(25,  0, 450, 30);
             drinkLabel.setFont(new Font("Arial", Font.PLAIN, 15));
             newSummaryPanel.add(drinkLabel);
+
+            JLabel storeID = new JLabel("Store ID: " + order.getLocalStoreID());
+            storeID.setBounds(25, 50, 450, 30);
+            storeID.setFont(new Font("Arial", Font.PLAIN, 15));
+            newSummaryPanel.add(storeID);
+
+            JLabel paymentMethod = new JLabel("Payment Method: " + order.getPaymentMethod());
+            paymentMethod.setBounds(25, 100, 450, 30);
+            paymentMethod.setFont(new Font("Arial", Font.PLAIN, 15));
+            newSummaryPanel.add(paymentMethod);
+
+            JLabel bankConfirmation = new JLabel("Bank Confirmation: " + order.getConfirmationCode());
+            bankConfirmation.setBounds(25, 150, 450, 30);
+            bankConfirmation.setFont(new Font("Arial", Font.PLAIN, 15));
+            newSummaryPanel.add(bankConfirmation);
 
         }
         //swaps the panel in scroll pane to newly created one (calls viewport to do so)
@@ -1198,7 +1238,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
                 sandwichTypeForSave = "Turkey Breast";
             }
             case MenuItems.COLD_CUT_COMBO -> {
-
+                //spot for implementation
             }
             case MenuItems.ROAST_BEEF -> {
                 if (roastIMG != null) {
@@ -1238,7 +1278,7 @@ public class SandwichFrame extends JFrame implements ActionListener {
                 sandwichTypeForSave = "Steak and Cheese";
             }
             case MenuItems.HAM -> {
-                //f
+                // was going to implement sandwich here but didn't
             }
 
             default -> {
@@ -1392,8 +1432,12 @@ public class SandwichFrame extends JFrame implements ActionListener {
         }
         //calculate cost of order, and update the customers past orders
         order.calcTotal();
+        order.setPaymentMethod((paymentMethod.getText() != null ) ? paymentMethod.getText() : "Not Specified");
         selectedCustomer.addOrder(order);
         changePastOrders();
+        //reset stored sandwiches and drink
+        currSandwiches = new ArrayList<>();
+        currDrinks = new ArrayList<>();
     }
 
     /**
@@ -1404,8 +1448,8 @@ public class SandwichFrame extends JFrame implements ActionListener {
         if (upgraded.isSelected()) {
             //sandwich plus
             SandwichPlus sandwichPlus = new SandwichPlus();
-            sandwichPlus.setPrice(12);
-            sandwichPlus.setType(sandwichTypeForSave);
+            sandwichPlus.setPrice(15*1.5);
+            sandwichPlus.setType(sandwichTypeForSave+"+");
             //create linked list of toppings
             LinkedList<String> toppings = new LinkedList<>();
             //look to see what toppings were selected
@@ -1435,13 +1479,32 @@ public class SandwichFrame extends JFrame implements ActionListener {
             sandwich.setType(sandwichTypeForSave);
             sandwich.setHasBacon(bacon.isSelected());
             sandwich.setToasted(toasted.isSelected());
-            if (Objects.equals(sizes.getSelectedItem(), "6 inch")) {
-                sandwich.setPrice(6);
-                sandwich.setSize((byte) 6);
-            } else if (Objects.equals(sizes.getSelectedItem(), "12 inch")) {
-                sandwich.setPrice(10);
-                sandwich.setSize((byte) 12);
+            //find size selected, and determine price and set sandwichSize
+
+            if (sizes.getSelectedItem() != null && ((String) sizes.getSelectedItem()).charAt(0) == '1') {
+                //if a 1 is in the front, then it is guaranteed going to be 10 - 14 (needs first two indexes)
+                String letters = Character.toString(((String)(sizes.getSelectedItem())).charAt(0)) + ((String) (sizes.getSelectedItem())).charAt(1);
+                letters = letters.replaceAll(" ", "");
+                int selectedSize = Integer.parseInt(letters);
+
+                sandwich.setSize((byte)selectedSize);
+                sandwich.setPrice(selectedSize*1.5);
             }
+            else if (sizes.getSelectedItem() != null) {
+                //2-9
+                String letters = Character.toString(((String)(sizes.getSelectedItem())).charAt(0)) + ((String) (sizes.getSelectedItem())).charAt(1);
+                letters = letters.replaceAll(" ", "");
+                int selectedSize = Integer.parseInt(letters);
+
+                sandwich.setSize((byte)selectedSize);
+                sandwich.setPrice(selectedSize*1.5);
+            }
+            else {
+                //default value for unselected
+                sandwich.setSize((byte)2);
+                sandwich.setPrice(2*1.5);
+            }
+
             //create linked list of toppings
             LinkedList<String> toppings = new LinkedList<>();
             //add selected toppings

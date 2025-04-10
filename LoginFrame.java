@@ -12,6 +12,8 @@ import java.util.Base64;
  *
  */
 
+//password --> Password, username --> Owen Reid
+
 public class LoginFrame extends JFrame implements ActionListener {
     private String username;
     private transient String password; //transient so Java doesn't serialize
